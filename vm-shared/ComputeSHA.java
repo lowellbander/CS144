@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
+import java.util.Formatter;
 
 public class ComputeSHA{
 	public static void main (String[] args){
@@ -17,10 +17,10 @@ public class ComputeSHA{
             File file = new File(filename);	
            
             //Convert file to byte array 
-            byte[] b = new byte[(int) file.length()];
+            byte[] bytes = new byte[(int) file.length()];
             try {
                 FileInputStream fileInputStream = new FileInputStream(file);
-                fileInputStream.read(b);
+                fileInputStream.read(bytes);
             }
             catch (FileNotFoundException e) {
                 System.out.println("File Not Found.");
@@ -37,12 +37,13 @@ public class ComputeSHA{
             MessageDigest md ;
             try {
                 md = MessageDigest.getInstance("SHA-1");
-                md.update(b);
+                md.update(bytes);
                 byte[] hash = md.digest();
-                for(byte h : hash){
-                    System.out.print(Integer.toHexString(0xff & h));
+                Formatter formatter = new Formatter();
+                for(byte b : hash){
+                    formatter.format("%02x", b);
                 }
-                System.out.println("");
+                System.out.println(formatter.toString());
             }
             catch (NoSuchAlgorithmException e){
                 System.err.println("SHA-1 is not a valid message digest algorithm");
