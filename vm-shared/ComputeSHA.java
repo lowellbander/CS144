@@ -25,10 +25,12 @@ public class ComputeSHA{
             catch (FileNotFoundException e) {
                 System.out.println("File Not Found.");
                 e.printStackTrace();
+                System.exit(-1);
             }
             catch (IOException e1) {
                 System.out.println("Error Reading The File.");
                 e1.printStackTrace();
+                System.exit(-1);
             }
             
             //Compute and print checksum
@@ -44,6 +46,7 @@ public class ComputeSHA{
             }
             catch (NoSuchAlgorithmException e){
                 System.err.println("SHA-1 is not a valid message digest algorithm");
+                System.exit(-1);
             }   
        }     
 }
