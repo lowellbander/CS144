@@ -11,6 +11,7 @@ Item (*ItemID*, Name, Buy_Price, Started, Ends, SellerID, Description)
 Location (*Location_Name*, Longitude, Latitude, Country)
 User (*UserID*, Rating)
 Bid (*BidderID*, *ItemID*, Time, Amount)
+Category (*Category_Name*, *ItemID*)
 
 2) “List all completely nontrivial functional dependencies that hold on each
 relation, excluding those that effectively specify keys.”
