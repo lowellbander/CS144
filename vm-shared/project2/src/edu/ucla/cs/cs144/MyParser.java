@@ -39,7 +39,8 @@ import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.ErrorHandler;
-
+import org.w3c.dom.NodeList;
+import org.w3c.dom.NamedNodeMap;
 
 class MyParser {
     
@@ -183,6 +184,35 @@ class MyParser {
         /* Fill in code here (you will probably need to write auxiliary
             methods). */
         
+        //TODO
+        
+        // for each item, create a text line for the LOAD file
+        Element root = doc.getDocumentElement();
+        NodeList items = root.getElementsByTagName("Item");
+
+        // for each Item in the XML document
+        for (int i = 0; i < items.getLength(); ++i) {
+            // Declaration of columns
+            String ItemID;
+            String Name = "";
+
+            Node item = items.item(i);
+
+            ItemID = item.getAttributes().getNamedItem("ItemID").getNodeValue();
+
+            NodeList children = item.getChildNodes();
+            for (int j = 0; j < children.getLength(); ++j) {
+                Node child = children.item(j);
+
+                // switch on the tag names
+                String tag = child.getNodeName();
+                if (tag.equals("Name"))
+                    Name = child.getTextContent();
+            }
+
+            System.out.println(ItemID + ",\"" + Name + "\"");
+            return; // only do for the first item
+        }
         
         
         /**************************************************************/
