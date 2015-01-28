@@ -196,14 +196,22 @@ class MyParser {
         
         /* Fill in code here (you will probably need to write auxiliary
             methods). */
-        
-        //TODO
-        
         // for each item, create a text line for the LOAD file
         Element root = doc.getDocumentElement();
         Element[] items = getElementsByTagNameNR(root,"Item");
-
-        
+       
+        BufferedWriter itemWriter = null, locationWriter = null, userWriter = null, bidWriter = null, categoryWriter = null;
+        try{
+            //Create outlets to write to files
+            itemWriter = new BufferedWriter(new FileWriter("item.del",true));
+            locationWriter = new BufferedWriter(new FileWriter("location.del", true));
+            userWriter = new BufferedWriter(new FileWriter("user.del", true));
+            bidWriter = new BufferedWriter(new FileWriter("bid.del", true));
+            categoryWriter = new BufferedWriter(new FileWriter("category.del", true));        
+        } 
+        catch(IOException e){
+            e.printStackTrace();
+        }
         // for each Item in the XML document
         for (int i = 0; i < items.length; ++i) {
             
