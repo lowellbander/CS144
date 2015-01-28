@@ -208,6 +208,7 @@ class MyParser {
             // Declaration of columns
             String ItemID;
             String Name = "";
+            String First_Bid = "";
             String Started = "";
             String Ends = "";
             String Description = "";
@@ -224,6 +225,10 @@ class MyParser {
                 String tag = child.getNodeName();
                 if (tag.equals("Name"))
                     Name = child.getTextContent();
+                else if (tag.equals("First_Bid")) {
+                    First_Bid = child.getTextContent()
+                        .substring(1,child.getTextContent().length());
+                }
                 else if (tag.equals("Started")) {
                     Started = toMySQLtimestamp(child.getTextContent());
                 }
@@ -242,8 +247,8 @@ class MyParser {
             }
 
             // write to Item LOAD file
-            System.out.println(ItemID + ",\"" + Name + "\"," + Started + "," + Ends
-                    + ",\"" + Description + "\"");
+            System.out.println(ItemID + ",\"" + Name + "\"," + First_Bid 
+                    + "," + Started + "," + Ends + ",\"" + Description + "\"");
             return; // only do for the first item
         }
         
