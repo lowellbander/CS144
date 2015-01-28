@@ -159,6 +159,19 @@ class MyParser {
         }
     }
     
+    static String toMySQLtimestamp(String in) {
+        String out = "";
+        SimpleDateFormat inFormat = new SimpleDateFormat("MMM-dd-yy HH:mm:ss");
+        try {
+            Date parsed = inFormat.parse(in);
+            DateFormat outFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+            out = outFormat.format(parsed);
+        } catch (ParseException pe) {
+            System.out.println("ERROR: Cannot parse \"" + in + "\"");
+        }
+        return out;
+    }
+
     /* Process one items-???.xml file.
      */
     static void processFile(File xmlFile) {
@@ -195,6 +208,8 @@ class MyParser {
             // Declaration of columns
             String ItemID;
             String Name = "";
+            String Started = "";
+            String Ends = "";
 
             Node item = items.item(i);
 
@@ -208,9 +223,19 @@ class MyParser {
                 String tag = child.getNodeName();
                 if (tag.equals("Name"))
                     Name = child.getTextContent();
+                else if (tag.equals("Started")) {
+                    Started = toMySQLtimestamp(child.getTextContent());
+                }
+                else if (tag.equals("Seller")) {
+                   String Rating = child.getAttributes().getNamedItem("Rating").getNodeValue(); 
+                   String UserID = child.getAttributes().getNamedItem("UserID").getNodeValue(); 
+                   //write to User LOAD file
+                   System.out.println(UserID + "," + Rating);
+                }
             }
 
-            System.out.println(ItemID + ",\"" + Name + "\"");
+            // write to Item LOAD file
+            System.out.println(ItemID + ",\"" + Name + "\"," + Started);
             return; // only do for the first item
         }
         
