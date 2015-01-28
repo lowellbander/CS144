@@ -159,19 +159,6 @@ class MyParser {
         }
     }
     
-    static String toMySQLtimestamp(String in) {
-        String out = "";
-        SimpleDateFormat inFormat = new SimpleDateFormat("MMM-dd-yy HH:mm:ss");
-        try {
-            Date parsed = inFormat.parse(in);
-            DateFormat outFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
-            out = outFormat.format(parsed);
-        } catch (ParseException pe) {
-            System.out.println("ERROR: Cannot parse \"" + in + "\"");
-        }
-        return out;
-    }
-
     /* Process one items-???.xml file.
      */
     static void processFile(File xmlFile) {
@@ -201,20 +188,22 @@ class MyParser {
         
         // for each item, create a text line for the LOAD file
         Element root = doc.getDocumentElement();
+        System.out.println(root.getTagName());
         NodeList items = root.getElementsByTagName("Item");
+        System.out.println(items.getLength());
 
         // for each Item in the XML document
         for (int i = 0; i < items.getLength(); ++i) {
-            // Declaration of columns
+            Node item = items.item(i);
             String ItemID;
             String Name = "";
-            String Started = "";
-            String Ends = "";
-            String Description = "";
 
-            Node item = items.item(i);
-
+            // This is longform for the single line below: 
+            //NamedNodeMap nnm = item.getAttributes();
+            //Node iid = nnm.getNamedItem("ItemID");
+            //String ItemID = iid.getNodeValue();
             ItemID = item.getAttributes().getNamedItem("ItemID").getNodeValue();
+            System.out.println(ItemID);
 
             NodeList children = item.getChildNodes();
             for (int j = 0; j < children.getLength(); ++j) {
@@ -222,28 +211,15 @@ class MyParser {
 
                 // switch on the tag names
                 String tag = child.getNodeName();
-                if (tag.equals("Name"))
-                    Name = child.getTextContent();
-                else if (tag.equals("Started")) {
-                    Started = toMySQLtimestamp(child.getTextContent());
+                if (tag.equals("Name")) {
+                    Name = child.getTextContext();
+                    System.out.println("name: " + Name);
+
                 }
-                else if (tag.equals("Ends")) {
-                    Ends = toMySQLtimestamp(child.getTextContent());
-                }
-                else if (tag.equals("Seller")) {
-                   String Rating = child.getAttributes().getNamedItem("Rating").getNodeValue(); 
-                   String UserID = child.getAttributes().getNamedItem("UserID").getNodeValue(); 
-                   //write to User LOAD file
-                   System.out.println(UserID + "," + Rating);
-                }
-                else if (tag.equals("Description")) 
-                    Description = child.getTextContent().substring(0, 
-                            Math.min(child.getTextContent().length(), 4000));
             }
 
-            // write to Item LOAD file
-            System.out.println(ItemID + ",\"" + Name + "\"," + Started + "," + Ends
-                    + ",\"" + Description + "\"");
+            //System.out.println("LOAD line:");
+            System.out.println(ItemID + "," + Name);
             return; // only do for the first item
         }
         
