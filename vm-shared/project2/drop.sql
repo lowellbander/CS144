@@ -1,0 +1,5 @@
+DROP TABLE Item;
+DROP TABLE Location;
+DROP TABLE User;
+DROP TABLE Bid;
+DROP TABLE Category;
