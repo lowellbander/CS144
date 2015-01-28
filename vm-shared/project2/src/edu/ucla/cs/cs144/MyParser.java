@@ -225,6 +225,11 @@ class MyParser {
                 String tag = child.getNodeName();
                 if (tag.equals("Name"))
                     Name = child.getTextContent();
+                else if (tag.equals("Category")) {
+                    String Category = child.getTextContent();
+                    // write to Category LOAD file
+                    System.out.println(Category + "," + ItemID);
+                }
                 else if (tag.equals("First_Bid")) {
                     First_Bid = child.getTextContent()
                         .substring(1,child.getTextContent().length());
@@ -238,7 +243,7 @@ class MyParser {
                 else if (tag.equals("Seller")) {
                    String Rating = child.getAttributes().getNamedItem("Rating").getNodeValue(); 
                    String UserID = child.getAttributes().getNamedItem("UserID").getNodeValue(); 
-                   //write to User LOAD file
+                   // write to User LOAD file
                    System.out.println(UserID + "," + Rating);
                 }
                 else if (tag.equals("Description")) 
