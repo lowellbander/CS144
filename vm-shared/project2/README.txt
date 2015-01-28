@@ -7,19 +7,21 @@ You need not specify attribute types at this stage.”
 Because underlining is not possible in plaintext, keys are enclosed by pairs of
 asterisks in the following relations.
 
-Item (*ItemID*, Name, Buy_Price, Started, Ends, SellerID, Description)
-Location (*Location_Name*, Longitude, Latitude, Country)
+Item (*ItemID*, Name, Buy_Price, First_Bid,
+    Started, Ends, SellerID, Description, LocationID)
+Location (*LocationID*, *Country*, Longitude, Latitude)
 User (*UserID*, Rating)
-Bid (*BidderID*, *ItemID*, Time, Amount)
+Bid (*BidderID*, *ItemID*, Time, Amount, LocationID)
 Category (*Category_Name*, *ItemID*)
 
 2) “List all completely nontrivial functional dependencies that hold on each
 relation, excluding those that effectively specify keys.”
 
-ItemID -> Name, Buy_Price, Ends, SellerID, Description
-Location_Name -> Longitude, Latitude, Country
+ItemID -> Name, Buy_Price, First_Bid, Started, Ends, SellerID, 
+    Description, LocationID
+Location_Name, Country -> Longitude, Latitude
 UserID -> Rating
-BidderID, ItemID -> Time, Amount
+BidderID, ItemID -> Time, Amount, LocationID
 
 3) “Are all of your relations in Boyce-Codd Normal Form (BCNF)? If not, either
 redesign them and start over, or explain why you feel it is advantageous to use
