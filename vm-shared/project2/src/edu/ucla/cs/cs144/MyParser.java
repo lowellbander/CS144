@@ -201,59 +201,40 @@ class MyParser {
         
         // for each item, create a text line for the LOAD file
         Element root = doc.getDocumentElement();
-        NodeList items = root.getElementsByTagName("Item");
+        Element[] items = getElementsByTagNameNR(root,"Item");
 
+        
         // for each Item in the XML document
-        for (int i = 0; i < items.getLength(); ++i) {
+        for (int i = 0; i < items.length; ++i) {
+            
+            Element item = items[i];
+
             // Declaration of columns
-            String ItemID;
-            String Name = "";
-            String First_Bid = "";
-            String Started = "";
-            String Ends = "";
-            String Description = "";
-
-            Node item = items.item(i);
-
-            ItemID = item.getAttributes().getNamedItem("ItemID").getNodeValue();
-
-            NodeList children = item.getChildNodes();
-            for (int j = 0; j < children.getLength(); ++j) {
-                Node child = children.item(j);
-
-                // switch on the tag names
-                String tag = child.getNodeName();
-                if (tag.equals("Name"))
-                    Name = child.getTextContent();
-                else if (tag.equals("Category")) {
-                    String Category = child.getTextContent();
-                    // write to Category LOAD file
-                    System.out.println(Category + "," + ItemID);
-                }
-                else if (tag.equals("First_Bid")) {
-                    First_Bid = child.getTextContent()
-                        .substring(1,child.getTextContent().length());
-                }
-                else if (tag.equals("Started")) {
-                    Started = toMySQLtimestamp(child.getTextContent());
-                }
-                else if (tag.equals("Ends")) {
-                    Ends = toMySQLtimestamp(child.getTextContent());
-                }
-                else if (tag.equals("Seller")) {
-                   String Rating = child.getAttributes().getNamedItem("Rating").getNodeValue(); 
-                   String UserID = child.getAttributes().getNamedItem("UserID").getNodeValue(); 
-                   // write to User LOAD file
-                   System.out.println(UserID + "," + Rating);
-                }
-                else if (tag.equals("Description")) 
-                    Description = child.getTextContent().substring(0, 
-                            Math.min(child.getTextContent().length(), 4000));
-            }
+            String ItemID = item.getAttribute("ItemID");
+            String Name = getElementTextByTagNameNR(item, "Name");
+            String First_Bid = strip(getElementTextByTagNameNR(item,"First_Bid"));
+            String Started = toMySQLtimestamp(getElementTextByTagNameNR(item, "Started"));
+            String Ends = toMySQLtimestamp(getElementTextByTagNameNR(item, "Ends"));
+            String Currently = strip(getElementTextByTagNameNR(item, "Currently"));
+            String Buy_Price = strip(getElementTextByTagNameNR(item, "Buy_Price"));
+            String descriptionFullText = getElementTextByTagNameNR(item, "Description");
+            String Description = descriptionFullText.substring(0, Math.min(descriptionFullText.length(), 4000));
+            Element[] categoryList = getElementsByTagNameNR(item, "Category");
+            //write to category load file            
+            Element seller = getElementByTagNameNR(item, "Seller");
+            String sellerID = seller.getAttribute("UserID");
+            String userID = sellerID;
+            String rating = seller.getAttribute("Rating");
+            String country = getElementText(getElementByTagNameNR(item, "Country"));
+            String location = getElementText(getElementByTagNameNR(item, "Location"));
+        
+            Element bids = getElementByTagNameNR(item, "Bids");
+            Element[] bidList = getElementsByTagNameNR(bids, "Bid");
+            //for each bid, write to bid load file
 
             // write to Item LOAD file
             System.out.println(ItemID + ",\"" + Name + "\"," + First_Bid 
-                    + "," + Started + "," + Ends + ",\"" + Description + "\"");
+                    + "," + Started + "," + Ends + ",\"" + Currently + ",\""+ Buy_Price +",\"" + sellerID + ",\"" +userID +",\"" + rating + ",\"" + country +",\"" + location +",\""+  Description + "\"");
             return; // only do for the first item
         }
         
