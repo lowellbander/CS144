@@ -7,7 +7,7 @@ You need not specify attribute types at this stage.”
 Because underlining is not possible in plaintext, keys are enclosed by pairs of
 asterisks in the following relations.
 
-Item (*ItemID*, Name, Buy_Price, Started, Ends, SellerID, Description)
+Item (*ItemID*, Name, Buy_Price, FirstBid, Started, Ends, SellerID, Description)
 Location (*Location_Name*, Longitude, Latitude, Country)
 User (*UserID*, Rating)
 Bid (*BidderID*, *ItemID*, Time, Amount)
