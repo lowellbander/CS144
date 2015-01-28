@@ -226,6 +226,9 @@ class MyParser {
                 else if (tag.equals("Started")) {
                     Started = toMySQLtimestamp(child.getTextContent());
                 }
+                else if (tag.equals("Ends")) {
+                    Ends = toMySQLtimestamp(child.getTextContent());
+                }
                 else if (tag.equals("Seller")) {
                    String Rating = child.getAttributes().getNamedItem("Rating").getNodeValue(); 
                    String UserID = child.getAttributes().getNamedItem("UserID").getNodeValue(); 
@@ -235,7 +238,7 @@ class MyParser {
             }
 
             // write to Item LOAD file
-            System.out.println(ItemID + ",\"" + Name + "\"," + Started);
+            System.out.println(ItemID + ",\"" + Name + "\"," + Started + "," + Ends);
             return; // only do for the first item
         }
         
