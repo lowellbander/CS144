@@ -1,14 +1,14 @@
-LOAD DATA LOCAL INFILE '~/shared/project2/user.dat' INTO TABLE User 
+LOAD DATA LOCAL INFILE '~/shared/project2/user.del' INTO TABLE User 
 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"';
 
-LOAD DATA LOCAL INFILE '~/shared/project2/location.dat' INTO TABLE Location
+LOAD DATA LOCAL INFILE '~/shared/project2/location.del' INTO TABLE Location
 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"';
 
-LOAD DATA LOCAL INFILE '~/shared/project2/item.dat' INTO TABLE Item 
+LOAD DATA LOCAL INFILE '~/shared/project2/item.del' INTO TABLE Item 
 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"';
 
-LOAD DATA LOCAL INFILE '~/shared/project2/bid.dat' INTO TABLE Bid 
+LOAD DATA LOCAL INFILE '~/shared/project2/bid.del' INTO TABLE Bid 
 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"';
 
-LOAD DATA LOCAL INFILE '~/shared/project2/category.dat' INTO TABLE Category 
+LOAD DATA LOCAL INFILE '~/shared/project2/category.del' INTO TABLE Category 
 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"';
