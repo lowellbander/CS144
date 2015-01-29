@@ -22,7 +22,7 @@ relation, excluding those that effectively specify keys.”
 ItemID -> Name, Buy_Price, First_Bid, Started, Ends, SellerID, 
     Description, Location, Country, Latitude, Longitude)
 UserID -> Rating, Location, Country
-BidderID, ItemID -> Time, Amount
+BidderID, ItemID, Time -> Amount
 
 3) “Are all of your relations in Boyce-Codd Normal Form (BCNF)? If not, either
 redesign them and start over, or explain why you feel it is advantageous to use
