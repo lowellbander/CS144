@@ -8,10 +8,12 @@ Because underlining is not possible in plaintext, keys are enclosed by pairs of
 asterisks in the following relations.
 
 Item (*ItemID*, Name, Buy_Price, First_Bid,
-    Started, Ends, SellerID, Description, LocationID)
-Location (*LocationID*, *Country*, Longitude, Latitude)
-User (*UserID*, Rating)
-Bid (*BidderID*, *ItemID*, Time, Amount, LocationID)
+    Started, Ends, SellerID, Description, Location, Country, Latitude, Longitude)
+
+User (*UserID*, Rating, Location, Country)
+
+Bid (*BidderID*, *ItemID*, *Time*, Amount)
+
 Category (*Category_Name*, *ItemID*)
 
 2) “List all completely nontrivial functional dependencies that hold on each
