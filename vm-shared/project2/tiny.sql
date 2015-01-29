@@ -1,5 +1,6 @@
 INSERT INTO User (UserID) VALUES ('rulabula');
 
+
 LOAD DATA LOCAL INFILE '~/shared/project2/item.del' INTO TABLE Item
 FIELDS TERMINATED BY '|*|' OPTIONALLY ENCLOSED BY '\'';
 
