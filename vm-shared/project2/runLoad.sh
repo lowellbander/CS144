@@ -26,7 +26,7 @@ ant run &&
 # (sort $category | uniq -u) > tmp.del && cat tmp.del  > $category
 
 # create a temp user for the sake of Item's FK constraint, then load item.del
-mysql CS144 < tiny.sql
+mysql CS144 < tiny.sql &&
 
 
 # Run the load.sql batch file to load the data
