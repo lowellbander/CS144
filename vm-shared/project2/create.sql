@@ -1,39 +1,38 @@
 CREATE TABLE User (
-    UserID INT PRIMARY KEY,
-    Rating INT
-);
-
-CREATE TABLE Location (
-    LocationID VARCHAR(255) PRIMARY KEY,
-    Country VARCHAR(255) PRIMARY KEY,
-    Longitude DOUBLE(8,5),
-    Latitude DOUBLE(8,5)
+    UserID VARCHAR(20),
+    Rating INT,
+    PRIMARY KEY (UserID)
 );
 
 CREATE TABLE Item (
-    ItemID VARCHAR(20) PRIMARY KEY,
+    ItemID VARCHAR(20),
     Name VARCHAR(255),
     Buy_Price FLOAT(10,2),
     First_Bid FLOAT(10,2),
     Started TIMESTAMP,
     Ends TIMESTAMP,
-    SellerID VARCHAR(20) FOREIGN KEY REFERENCES User(UserID),
+    SellerID VARCHAR(20),
     Description TEXT,
-    LocationID VARCHAR(255) FOREIGN KEY REFERENCES Location(LocationID)
+    Location_Name VARCHAR(255),
+    Country VARCHAR(255),
+    PRIMARY KEY (ItemID),
+    FOREIGN KEY (SellerID) REFERENCES User(UserID)
 );
 
 CREATE TABLE Bid (
-    BidderID VARCHAR(20) FOREIGN KEY REFERENCES User(UserID),
-    ItemID VARCHAR(20) FOREIGN KEY REFERENCES Item(ItemID),
+    BidderID VARCHAR(20),
+    ItemID VARCHAR(20),
     Time TIMESTAMP,
     Amount FLOAT(10,2),
-    LocationID VARCHAR(255) FOREIGN KEY REFERENCES Location(LocationID),
-    PRIMARY KEY (BidderID, ItemID)
+    PRIMARY KEY (BidderID, ItemID),
+    FOREIGN KEY (BidderID) REFERENCES User(UserID),
+    FOREIGN KEY (ItemID) REFERENCES Item(ItemID)
 );
 
 CREATE TABLE Category (
     Category_Name VARCHAR(255),
-    ItemID VARCHAR(20) FOREIGN KEY REFERENCES Item(ItemID),
-    PRIMARY KEY (Category_Name, ItemID)
+    ItemID VARCHAR(20),
+    PRIMARY KEY (Category_Name, ItemID),
+    FOREIGN KEY (ItemID) REFERENCES Item(ItemID)
 );
 
