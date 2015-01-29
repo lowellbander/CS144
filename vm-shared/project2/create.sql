@@ -7,22 +7,22 @@ CREATE TABLE User (
 );
 
 CREATE TABLE Item (
-    ItemID VARCHAR(20),
-    Name VARCHAR(255),
-    Buy_Price FLOAT(10,2),
-    First_Bid FLOAT(10,2),
-    Started TIMESTAMP,
-    Ends TIMESTAMP,
-    SellerID VARCHAR(20),
-    Description TEXT,
-    Location VARCHAR(255),
-    Country VARCHAR(255),
-    Latitude DOUBLE(10,7),
-    Longitude DOUBLE(10,7),
-    PRIMARY KEY (ItemID),
-    FOREIGN KEY (SellerID) REFERENCES User(UserID)
+    ItemID VARCHAR(20)
+    -- Name VARCHAR(255),
+    -- Buy_Price FLOAT(10,2),
+    -- First_Bid FLOAT(10,2),
+    -- Started TIMESTAMP,
+    -- Ends TIMESTAMP,
+    -- SellerID VARCHAR(20),
+    -- Description TEXT,
+    -- Location VARCHAR(255),
+    -- Country VARCHAR(255),
+    -- Latitude DOUBLE(10,7),
+    -- Longitude DOUBLE(10,7),
+    -- PRIMARY KEY (ItemID),
+    -- FOREIGN KEY (SellerID) REFERENCES User(UserID)
 );
-
+/*
 CREATE TABLE Bid (
     BidderID VARCHAR(20),
     ItemID VARCHAR(20),
