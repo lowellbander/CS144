@@ -11,17 +11,29 @@ CREATE TABLE Location (
 );
 
 CREATE TABLE Item (
-    UserID INT PRIMARY KEY,
+    ItemID VARCHAR(20) PRIMARY KEY,
     Name VARCHAR(255),
     Buy_Price FLOAT(10,2),
     First_Bid FLOAT(10,2),
     Started TIMESTAMP,
     Ends TIMESTAMP,
-    SellerID INT FOREIGN KEY REFERENCES User(UserID),
+    SellerID VARCHAR(20) FOREIGN KEY REFERENCES User(UserID),
     Description TEXT,
     LocationID VARCHAR(255) FOREIGN KEY REFERENCES Location(LocationID)
 );
 
 CREATE TABLE Bid (
+    BidderID VARCHAR(20) FOREIGN KEY REFERENCES User(UserID),
+    ItemID VARCHAR(20) FOREIGN KEY REFERENCES Item(ItemID),
+    Time TIMESTAMP,
+    Amount FLOAT(10,2),
+    LocationID VARCHAR(255) FOREIGN KEY REFERENCES Location(LocationID),
+    PRIMARY KEY (BidderID, ItemID)
+);
+
+CREATE TABLE Category (
+    Category_Name VARCHAR(255),
+    ItemID VARCHAR(20) FOREIGN KEY REFERENCES Item(ItemID),
+    PRIMARY KEY (Category_Name, ItemID)
 );
 
