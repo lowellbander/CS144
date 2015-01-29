@@ -7,19 +7,19 @@ mysql CS144 < drop.sql &&
 mysql CS144 < create.sql &&
 
 # Compile and run the parser to generate the appropriate load files
-ant  &&
+# ant  &&
 ant run &&
 # ant run-all
 #...
 
 # If the Java code does not handle duplicate removal, do this now
-user="user.del"
+# user="user.del"
 # location="location.del"
 # item="item.del"
 # bid="bid.del"
 # category="category.del"
 
-(sort $user | uniq -u) > tmp.del && cat tmp.del  > $user
+# (sort $user | uniq -u) > tmp.del && cat tmp.del  > $user
 # (sort $location | uniq -u) > tmp.del && cat tmp.del  > $location
 # (sort $item | uniq -u) > tmp.del && cat tmp.del  > $item
 # (sort $bid | uniq -u) > tmp.del && cat tmp.del  > $bid
@@ -33,6 +33,6 @@ mysql CS144 < tiny.sql
 # mysql CS144 < load.sql
 
 # Remove all temporary files
-# rm *.del
+rm *.del
 # ...
 
