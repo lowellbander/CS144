@@ -180,7 +180,7 @@ class MyParser {
             result = result +"'"+ args[i] +"'"+ columnSeparator;
             //System.out.println(result);
         }
-        result += args[i];
+        result = result + "'" + args[i] + "'";
 
         return result;
     }
@@ -242,15 +242,16 @@ class MyParser {
                 String rating = seller.getAttribute("Rating");
                 String country = getElementText(getElementByTagNameNR(item, "Country"));
                 Element Location_Element = getElementByTagNameNR(item, "Location");
-                String location = getElementText(Location_Element);
-                
+                String Location = getElementText(Location_Element);
+                String Latitude = Location_Element.getAttribute("Latitude");
+                String Longitude = Location_Element.getAttribute("Longitude");   
                  
                 Element bids = getElementByTagNameNR(item, "Bids");
                 Element[] bidList = getElementsByTagNameNR(bids, "Bid");
                 //for each bid, write to bid load file
 
-                String itemRow = formatForLoad(ItemID, Name, Buy_Price, First_Bid, Started, Ends,sellerID, Description, location);
-                //System.out.println(itemRow);
+                String itemRow = formatForLoad(ItemID, Name, Buy_Price, First_Bid, Started, Ends,sellerID, Description, Location, Latitude, Longitude);
+                System.out.println(itemRow);
                 itemWriter.write(itemRow+"\n");
 
                 //loadIntoFile(itemWriter,itemRow);
