@@ -18,11 +18,11 @@ item="item.del"
 bid="bid.del"
 category="category.del"
 
-(sort $user | uniq -u) > $user
-(sort $location | uniq -u) > $location
-(sort $item | uniq -u) > $item
-(sort $bid | uniq -u) > $bid
-(sort $category | uniq -u) > $category
+(sort $user | uniq -u) > tmp.del && cat tmp.del  > $user
+(sort $location | uniq -u) > tmp.del && cat tmp.del  > $location
+(sort $item | uniq -u) > tmp.del && cat tmp.del  > $item
+(sort $bid | uniq -u) > tmp.del && cat tmp.del  > $bid
+(sort $category | uniq -u) > tmp.del && cat tmp.del  > $category
 
 # Run the load.sql batch file to load the data
 mysql CS144 < load.sql
