@@ -240,7 +240,7 @@ class MyParser {
                 String sellerID = seller.getAttribute("UserID");
                 String userID = sellerID;
                 String rating = seller.getAttribute("Rating");
-                String country = getElementText(getElementByTagNameNR(item, "Country"));
+                String Country = getElementText(getElementByTagNameNR(item, "Country"));
                 Element Location_Element = getElementByTagNameNR(item, "Location");
                 String Location = getElementText(Location_Element);
                 String Latitude = Location_Element.getAttribute("Latitude");
@@ -250,7 +250,7 @@ class MyParser {
                 Element[] bidList = getElementsByTagNameNR(bids, "Bid");
                 //for each bid, write to bid load file
 
-                String itemRow = formatForLoad(ItemID, Name, Buy_Price, First_Bid, Started, Ends,sellerID, Description, Location, Latitude, Longitude);
+                String itemRow = formatForLoad(ItemID, Name, Buy_Price, First_Bid, Started, Ends,sellerID, Description, Location, Country, Latitude, Longitude);
                 System.out.println(itemRow);
                 itemWriter.write(itemRow+"\n");
 
