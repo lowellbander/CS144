@@ -177,7 +177,8 @@ class MyParser {
         
         int size = args.length, i=0;
         for(;i<size-1; ++i){
-            result = result +"\""+ args[i] +"\""+ columnSeparator;
+            result = result +"'"+ args[i] +"'"+ columnSeparator;
+            //System.out.println(result);
         }
         result += args[i];
 
@@ -235,22 +236,19 @@ class MyParser {
                 String descriptionFullText = getElementTextByTagNameNR(item, "Description");
                 String Description = descriptionFullText.substring(0, Math.min(descriptionFullText.length(), 4000));
                 Element[] categoryList = getElementsByTagNameNR(item, "Category");
-                //write to category load file            
                 Element seller = getElementByTagNameNR(item, "Seller");
                 String sellerID = seller.getAttribute("UserID");
                 String userID = sellerID;
                 String rating = seller.getAttribute("Rating");
                 String country = getElementText(getElementByTagNameNR(item, "Country"));
-                String location = getElementText(getElementByTagNameNR(item, "Location"));
+                Element Location_Element = getElementByTagNameNR(item, "Location");
+                String location = getElementText(Location_Element);
                 
                  
                 Element bids = getElementByTagNameNR(item, "Bids");
                 Element[] bidList = getElementsByTagNameNR(bids, "Bid");
                 //for each bid, write to bid load file
 
-                // write to Item LOAD file
-                /*System.out.println(ItemID + ",\"" + Name + "\"," + First_Bid 
-                        + "," + Started + "," + Ends + ",\"" + Currently + ",\""+ Buy_Price +",\"" + sellerID + ",\"" +userID +",\"" + rating + ",\"" + country +",\"" + location +",\""+  Description + "\"");*/
                 String itemRow = formatForLoad(ItemID, Name, Buy_Price, First_Bid, Started, Ends,sellerID, Description, location);
                 //System.out.println(itemRow);
                 itemWriter.write(itemRow+"\n");
