@@ -22,7 +22,7 @@ CREATE TABLE Item (
     PRIMARY KEY (ItemID),
     FOREIGN KEY (SellerID) REFERENCES User(UserID)
 );
-/*
+
 CREATE TABLE Bid (
     BidderID VARCHAR(20),
     ItemID VARCHAR(20),
