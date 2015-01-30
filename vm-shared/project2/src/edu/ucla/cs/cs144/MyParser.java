@@ -253,7 +253,11 @@ class MyParser {
                 String itemRow = formatForLoad(ItemID, Name, Buy_Price, First_Bid, Started, Ends,sellerID, Description, Location, Country, Latitude, Longitude);
                 System.out.println(itemRow);
                 itemWriter.write(itemRow+"\n");
-
+                
+                String userRow = formatForLoad(userID, rating, Location, Country);
+                userWriter.write(userRow+"\n");
+                
+                
                 //loadIntoFile(itemWriter,itemRow);
                 //TODO: Remove return      
                 return; // only do for the first item
