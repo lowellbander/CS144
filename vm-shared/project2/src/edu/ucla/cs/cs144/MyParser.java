@@ -170,7 +170,7 @@ class MyParser {
         } catch (ParseException pe) {
             System.out.println("ERROR: Cannot parse \"" + in + "\"");
         }
-        System.out.println("Converting "+ in + " => " + out);
+        //System.out.println("Converting "+ in + " => " + out);
         return out;
     }
 
