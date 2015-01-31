@@ -1,11 +1,11 @@
-LOAD DATA LOCAL INFILE '~/shared/project2/user.del' INTO TABLE User 
+LOAD DATA LOCAL INFILE 'user.del' INTO TABLE User 
 FIELDS TERMINATED BY '|*|'; 
 
-LOAD DATA LOCAL INFILE '~/shared/project2/item.del' INTO TABLE Item 
+LOAD DATA LOCAL INFILE 'item.del' INTO TABLE Item 
 FIELDS TERMINATED BY '|*|';
 
-LOAD DATA LOCAL INFILE '~/shared/project2/bid.del' INTO TABLE Bid 
+LOAD DATA LOCAL INFILE 'bid.del' INTO TABLE Bid 
 FIELDS TERMINATED BY '|*|';
 
-LOAD DATA LOCAL INFILE '~/shared/project2/category.del' INTO TABLE Category 
+LOAD DATA LOCAL INFILE 'category.del' INTO TABLE Category 
 FIELDS TERMINATED BY '|*|' ;
