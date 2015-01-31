@@ -38,7 +38,7 @@ FROM (SELECT * FROM User WHERE
 
 /* 7) Find the number of categories that include at least one item with a bid of
  * more than $100.*/
-SELECT COUNT(*) 
+SELECT COUNT(DISTINCT Category_Name) 
 FROM Category 
 WHERE ItemID IN 
         (SELECT ItemID 
