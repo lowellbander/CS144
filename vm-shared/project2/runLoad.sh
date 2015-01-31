@@ -13,24 +13,21 @@ ant run &&
 #...
 
 # If the Java code does not handle duplicate removal, do this now
-# user="user.del"
-# location="location.del"
+user="user.del"
 # item="item.del"
 # bid="bid.del"
 # category="category.del"
 
-# (sort $user | uniq -u) > tmp.del && cat tmp.del  > $user
-# (sort $location | uniq -u) > tmp.del && cat tmp.del  > $location
+(sort $user | uniq -u) > tmp.del && cat tmp.del  > $user &&
 # (sort $item | uniq -u) > tmp.del && cat tmp.del  > $item
 # (sort $bid | uniq -u) > tmp.del && cat tmp.del  > $bid
 # (sort $category | uniq -u) > tmp.del && cat tmp.del  > $category
 
 # create a temp user for the sake of Item's FK constraint, then load item.del
-mysql CS144 < tiny.sql &&
-
+# mysql CS144 < tiny.sql &&
 
 # Run the load.sql batch file to load the data
-# mysql CS144 < load.sql
+mysql CS144 < load.sql &&
 
 # Remove all temporary files
 rm *.del
