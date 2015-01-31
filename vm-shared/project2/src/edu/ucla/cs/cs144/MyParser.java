@@ -257,7 +257,14 @@ class MyParser {
             
                 for(int k=0; k<bidList.length ;k++){
                     Element bid = bidList[k];
-                    String BidderID = getElementByTagNameNR(bid, "Bidder").getAttribute("Rating");
+                    Element bidder = getElementByTagNameNR(bid, "Bidder");
+                    String BidderID = bidder.getAttribute("UserID");
+                    String Bidder_Rating = bidder.getAttribute("Rating");
+                    String Bidder_Location = getElementTextByTagNameNR(bidder, "Location");
+                    String Bidder_Country = getElementTextByTagNameNR(bidder, "Country");
+                    String bidderUserRow = formatForLoad(BidderID, Bidder_Rating, Bidder_Location, Bidder_Country);
+                    userWriter.write(bidderUserRow+"\n");
+
                     String Time = toMySQLtimestamp(getElementTextByTagNameNR(bid, "Time"));
                     String Amount = getElementTextByTagNameNR(bid, "Amount");
                     String bidRow = formatForLoad(BidderID, ItemID, Time, Amount);
