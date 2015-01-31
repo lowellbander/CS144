@@ -160,15 +160,17 @@ class MyParser {
     }
     
     static String toMySQLtimestamp(String in) {
+        
         String out = "";
         SimpleDateFormat inFormat = new SimpleDateFormat("MMM-dd-yy HH:mm:ss");
         try {
             Date parsed = inFormat.parse(in);
-            DateFormat outFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+            DateFormat outFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             out = outFormat.format(parsed);
         } catch (ParseException pe) {
             System.out.println("ERROR: Cannot parse \"" + in + "\"");
         }
+        System.out.println("Converting "+ in + " => " + out);
         return out;
     }
 
