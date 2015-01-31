@@ -28,15 +28,15 @@ CREATE TABLE Bid (
     ItemID VARCHAR(20),
     Time TIMESTAMP,
     Amount FLOAT(10,2),
-    PRIMARY KEY (BidderID, ItemID, Time)
- --   FOREIGN KEY (BidderID) REFERENCES User(UserID),
-   -- FOREIGN KEY (ItemID) REFERENCES Item(ItemID)
+    PRIMARY KEY (BidderID, ItemID, Time),
+    FOREIGN KEY (BidderID) REFERENCES User(UserID),
+    FOREIGN KEY (ItemID) REFERENCES Item(ItemID)
 );
 
 CREATE TABLE Category (
     Category_Name VARCHAR(255),
     ItemID VARCHAR(20),
-    PRIMARY KEY (Category_Name, ItemID)
- --   FOREIGN KEY (ItemID) REFERENCES Item(ItemID)
+    PRIMARY KEY (Category_Name, ItemID),
+    FOREIGN KEY (ItemID) REFERENCES Item(ItemID)
 );
 
