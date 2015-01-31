@@ -4,7 +4,7 @@ SELECT COUNT(*) FROM User;
 /* 2) Find the number of items in "New York", (i.e., items whose location is
  * exactly the string "New York"). Pay special attention to case sensitivity.
  * You should match the items in "New York" but not in "new york". */
-SELECT COUNT(*) FROM Item WHERE Location = "New York";
+SELECT COUNT(*) FROM Item I WHERE BINARY I.Location = "New York";
 -- Getting  143 instead of 103
 
 /* 3) Find the number of auctions belonging to exactly four categories.*/
