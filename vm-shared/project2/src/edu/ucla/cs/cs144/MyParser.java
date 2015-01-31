@@ -212,11 +212,10 @@ class MyParser {
         Element root = doc.getDocumentElement();
         Element[] items = getElementsByTagNameNR(root,"Item");
        
-        BufferedWriter itemWriter = null, locationWriter = null, userWriter = null, bidWriter = null, categoryWriter = null;
+        BufferedWriter itemWriter = null , userWriter = null, bidWriter = null, categoryWriter = null;
         try{
             //Create outlets to write to files
             itemWriter = new BufferedWriter(new FileWriter("item.del",true));
-            locationWriter = new BufferedWriter(new FileWriter("location.del", true));
             userWriter = new BufferedWriter(new FileWriter("user.del", true));
             bidWriter = new BufferedWriter(new FileWriter("bid.del", true));
             categoryWriter = new BufferedWriter(new FileWriter("category.del", true));
@@ -276,7 +275,6 @@ class MyParser {
         } finally {
             if(itemWriter != null) try{itemWriter.close();} catch(IOException ignore) {} 
             if(categoryWriter != null) try{categoryWriter.close();} catch(IOException ignore){}
-            if(locationWriter != null) try{locationWriter.close();} catch(IOException ignore){}
             if(userWriter != null) try{userWriter.close();} catch(IOException ignore){}
             if(bidWriter != null) try{bidWriter.close();} catch(IOException ignore){}
         }
