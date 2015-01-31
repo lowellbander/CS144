@@ -4,12 +4,14 @@ SELECT COUNT(*) FROM User;
 /* 2) Find the number of items in "New York", (i.e., items whose location is
  * exactly the string "New York"). Pay special attention to case sensitivity.
  * You should match the items in "New York" but not in "new york". */
-SELECT COUNT(*) FROM Item WHERE LocationID = "New York";
+SELECT COUNT(*) FROM Item WHERE Location = "New York";
+-- Getting  143 instead of 103
 
 /* 3) Find the number of auctions belonging to exactly four categories.*/
-SELECT COUNT(*) FROM Category
+SELECT COUNT(*) FROM
 (SELECT COUNT(*) as sub FROM Category GROUP BY ItemID HAVING sub=4)
 as super;
+-- Wrong answer
 
 /* 4) Find the ID(s) of current (unsold) auction(s) with the highest bid. Remember
  * that the data was captured at the point in time December 20th, 2001, one
@@ -19,6 +21,7 @@ as super;
 SELECT Bid.ItemID FROM BID INNER JOIN Item on Bid.ItemID = Item.ItemID 
 WHERE Ends > '20011220' 
 AND Amount = (SELECT MAX(Amount) FROM Bid) ; 
+-- Wrong answer (possibly becuase of invalid dates
 
 /* 5) Find the number of sellers whose rating is higher than 1000.*/
 SELECT COUNT(*)

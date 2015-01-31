@@ -160,15 +160,17 @@ class MyParser {
     }
     
     static String toMySQLtimestamp(String in) {
+        
         String out = "";
         SimpleDateFormat inFormat = new SimpleDateFormat("MMM-dd-yy HH:mm:ss");
         try {
             Date parsed = inFormat.parse(in);
-            DateFormat outFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+            DateFormat outFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             out = outFormat.format(parsed);
         } catch (ParseException pe) {
             System.out.println("ERROR: Cannot parse \"" + in + "\"");
         }
+        System.out.println("Converting "+ in + " => " + out);
         return out;
     }
 
@@ -177,10 +179,16 @@ class MyParser {
         
         int size = args.length, i=0;
         for(;i<size-1; ++i){
-            result = result +"'"+ args[i] +"'"+ columnSeparator;
+            if(args[i].length() != 0){
+                result = result + args[i] + columnSeparator;
+            }
+            else{
+                result = result + columnSeparator;
+            }
             //System.out.println(result);
+            //result = result + args[i] + columnSeparator;
         }
-        result = result + "'" + args[i] + "'";
+        result = result + args[i] ;
 
         return result;
     }
@@ -232,6 +240,8 @@ class MyParser {
                 String Ends = toMySQLtimestamp(getElementTextByTagNameNR(item, "Ends"));
                 String Currently = strip(getElementTextByTagNameNR(item, "Currently"));
                 String Buy_Price = strip(getElementTextByTagNameNR(item, "Buy_Price"));
+                if(Buy_Price == "") 
+                    Buy_Price = " ";
                 String descriptionFullText = getElementTextByTagNameNR(item, "Description");
                 String Description = descriptionFullText.substring(0, Math.min(descriptionFullText.length(), 4000));
                 Element[] categoryList = getElementsByTagNameNR(item, "Category");
@@ -244,7 +254,8 @@ class MyParser {
                 String Location = getElementText(Location_Element);
                 String Latitude = Location_Element.getAttribute("Latitude");
                 String Longitude = Location_Element.getAttribute("Longitude");   
-                 
+                if(Latitude == "")  Latitude = " ";
+                if(Longitude == "") Longitude = " ";
                 Element bids = getElementByTagNameNR(item, "Bids");
                 Element[] bidList = getElementsByTagNameNR(bids, "Bid");
 
@@ -275,6 +286,7 @@ class MyParser {
                     String categoryRow = formatForLoad(getElementText(category), ItemID);
                     categoryWriter.write(categoryRow+"\n");
                 }
+                //return;
             }
         } 
         catch(IOException e){
