@@ -277,7 +277,7 @@ class MyParser {
                     userWriter.write(bidderUserRow+"\n");
 
                     String Time = toMySQLtimestamp(getElementTextByTagNameNR(bid, "Time"));
-                    String Amount = getElementTextByTagNameNR(bid, "Amount");
+                    String Amount = strip(getElementTextByTagNameNR(bid, "Amount"));
                     String bidRow = formatForLoad(BidderID, ItemID, Time, Amount);
                     bidWriter.write(bidRow + "\n");
                 }    
