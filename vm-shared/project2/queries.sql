@@ -7,12 +7,18 @@ SELECT COUNT(*) FROM User;
 SELECT COUNT(*) FROM Item WHERE LocationID = "New York";
 
 /* 3) Find the number of auctions belonging to exactly four categories.*/
+SELECT COUNT(*) FROM Category
+(SELECT COUNT(*) as sub FROM Category GROUP BY ItemID HAVING sub=4)
+as super;
 
 /* 4) Find the ID(s) of current (unsold) auction(s) with the highest bid. Remember
  * that the data was captured at the point in time December 20th, 2001, one
  * second after midnight, so you can use this time point to decide which
  * auction(s) are current. Pay special attention to the current auctions without
  * any bid.*/
+SELECT Bid.ItemID FROM BID INNER JOIN Item on Bid.ItemID = Item.ItemID 
+WHERE Ends > '20011220' 
+AND Amount = (SELECT MAX(Amount) FROM Bid) ; 
 
 /* 5) Find the number of sellers whose rating is higher than 1000.*/
 SELECT COUNT(*)
