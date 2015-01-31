@@ -225,7 +225,7 @@ class MyParser {
             
                 Element item = items[i];
 
-                // Declaration of columns
+                //Get all strings needed
                 String ItemID = item.getAttribute("ItemID");
                 String Name = getElementTextByTagNameNR(item, "Name");
                 String First_Bid = strip(getElementTextByTagNameNR(item,"First_Bid"));
@@ -248,21 +248,28 @@ class MyParser {
                  
                 Element bids = getElementByTagNameNR(item, "Bids");
                 Element[] bidList = getElementsByTagNameNR(bids, "Bid");
-                //for each bid, write to bid load file
 
+                //Construct rows and write to load files
                 String itemRow = formatForLoad(ItemID, Name, Buy_Price, First_Bid, Started, Ends,sellerID, Description, Location, Country, Latitude, Longitude);
-                System.out.println(itemRow);
                 itemWriter.write(itemRow+"\n");
                 
                 String userRow = formatForLoad(userID, rating, Location, Country);
                 userWriter.write(userRow+"\n");
-                
-                
-                //loadIntoFile(itemWriter,itemRow);
-                //TODO: Remove return      
-                return; // only do for the first item
+            
+                for(int k=0; k<bidList.length ;k++){
+                    Element bid = bidList[k];
+                    String BidderID = getElementByTagNameNR(bid, "Bidder").getAttribute("Rating");
+                    String Time = toMySQLtimestamp(getElementTextByTagNameNR(bid, "Time"));
+                    String Amount = getElementTextByTagNameNR(bid, "Amount");
+                    String bidRow = formatForLoad(BidderID, ItemID, Time, Amount);
+                    bidWriter.write(bidRow + "\n");
+                }    
+                for(int j=0; j<categoryList.length; j++){
+                    Element category = categoryList[j];
+                    String categoryRow = formatForLoad(getElementText(category), ItemID);
+                    categoryWriter.write(categoryRow+"\n");
+                }
             }
-        
         } 
         catch(IOException e){
             e.printStackTrace();
