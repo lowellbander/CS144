@@ -18,7 +18,7 @@ as super;
  * second after midnight, so you can use this time point to decide which
  * auction(s) are current. Pay special attention to the current auctions without
  * any bid.*/
-SELECT Bid.ItemID FROM BID INNER JOIN Item on Bid.ItemID = Item.ItemID 
+SELECT Bid.ItemID FROM Bid INNER JOIN Item on Bid.ItemID = Item.ItemID 
 WHERE Ends > '20011220' 
 AND Amount = (SELECT MAX(Amount) FROM Bid) ; 
 -- Wrong answer (possibly becuase of invalid dates
@@ -27,14 +27,14 @@ AND Amount = (SELECT MAX(Amount) FROM Bid) ;
 SELECT COUNT(*)
 FROM (SELECT * FROM User Where Rating > 1000 AND
         UserID IN (SELECT SellerID FROM Item)
-);
+) AS T;
 
 /* 6) Find the number of users who are both sellers and bidders.*/
 SELECT COUNT(*)
 FROM (SELECT * FROM User WHERE 
         UserID IN (SELECT BidderID FROM Bid) AND
         UserID IN (SELECT SellerID FROM Item)
-);
+) AS T;
 
 /* 7) Find the number of categories that include at least one item with a bid of
  * more than $100.*/
@@ -44,5 +44,5 @@ WHERE ItemID IN
         (SELECT ItemID 
             FROM Bid 
             WHERE Amount > 100)
-);
+;
 
