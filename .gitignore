@@ -1,1 +1,5 @@
 *.sw*
+
+bin/
+index-directory/
+
