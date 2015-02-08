@@ -34,8 +34,7 @@ import org.apache.lucene.search.IndexSearcher;
 public class Main {
     
     /** Creates a new instance of Main */
-    public Main() {
-    }
+    public Main() {  }
     
     /**
      * @param args the command line arguments
