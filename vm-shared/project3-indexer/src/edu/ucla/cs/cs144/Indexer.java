@@ -35,7 +35,7 @@ public class Indexer {
 
     private IndexWriter indexWriter = null;
 
-    public IndexWriter getIndexWriter (boolean create) throws IOException {
+    public IndexWriter getIndexWriter () throws IOException {
         if (indexWriter == null) {
             Directory indexDir = FSDirectory.open(new File("index-directory"));
             IndexWriterConfig config = 
@@ -58,7 +58,7 @@ public class Indexer {
 	try {
 	    conn = DbManager.getConnection(true);
 
-        IndexWriter writer = getIndexWriter(false);
+        IndexWriter writer = getIndexWriter();
         
         // use JDBC to retrieve information from our database table, 
         // TODO: then build a Lucene index from it.
