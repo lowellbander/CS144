@@ -35,6 +35,27 @@ public class Indexer {
         // create a connection to the database to retrieve Items from MySQL
 	try {
 	    conn = DbManager.getConnection(true);
+        
+        // TODO: use JDBC to retrieve information from our database table, then
+        // build a Lucene index from it.
+        
+        // TODO: Does this code belong inside this try block, or should it be in
+        // its own block?
+        
+        Statement s = conn.createStatement();
+        
+        ResultSet rs = s.executeQuery("SELECT Name FROM Item");
+        String name;
+        Integer howMany = 0;
+        while (rs.next()) {
+            name = rs.getString("Name");
+            System.out.println(name);
+            if (howMany.equals(10)) break;
+            ++howMany;
+        }
+
+        // System.out.println("Got this far without crashing!");
+
 	} catch (SQLException ex) {
 	    System.out.println(ex);
 	}
