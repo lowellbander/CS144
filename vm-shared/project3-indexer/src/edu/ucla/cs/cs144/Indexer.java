@@ -39,22 +39,42 @@ public class Indexer {
         // TODO: use JDBC to retrieve information from our database table, then
         // build a Lucene index from it.
         
-        // TODO: Does this code belong inside this try block, or should it be in
-        // its own block?
+        // TODO: Does this code belong inside this try block, or should it be 
+        // in its own block?
         
+        // statements are kind of like threads, so you need separate statement
+        // objects for separate queries: One for the Items, and another for
+        // their Categories. If the queries are run on a single thread, the
+        // following SQLexception is raised: "Operation not allowed after
+        // ResultSet closed."
         Statement s = conn.createStatement();
+        Statement c_s = conn.createStatement();
         
-        ResultSet rs = s.executeQuery("SELECT Name FROM Item");
-        String name;
+        ResultSet rs = s.executeQuery("SELECT * FROM Item");
+        String name, itemID, Description;
         Integer howMany = 0;
+        // for each Item in the database
         while (rs.next()) {
+            // retrieve the easy attributes
             name = rs.getString("Name");
-            System.out.println(name);
+            itemID = rs.getString("ItemID");
+            Description = rs.getString("Description");
+
+            //TODO: retrieve categories for this Item.
+            String query = "SELECT Category_Name FROM Category WHERE ItemID = " + itemID;
+            //String query = "SELECT * FROM Category";
+            ResultSet c_rs = c_s.executeQuery(query);
+            String categories = "";
+            while (c_rs.next()) {
+                //System.out.println(c_rs.getString("Category_Name"));
+                //System.out.println(c_rs.getString("ItemID"));
+                categories += c_rs.getString("Category_Name") + " "; // bad
+            }
+
+            System.out.println(name + " //CATEGORIES// " + categories);
             if (howMany.equals(10)) break;
             ++howMany;
         }
-
-        // System.out.println("Got this far without crashing!");
 
 	} catch (SQLException ex) {
 	    System.out.println(ex);
