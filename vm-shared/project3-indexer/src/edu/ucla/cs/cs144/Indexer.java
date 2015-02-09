@@ -27,20 +27,36 @@ public class Indexer {
     /** Creates a new instance of Indexer */
     public Indexer() {
     }
+
+    private IndexWriter indexWriter = null;
+
+    public IndexWriter getIndexWriter (boolean create) throws IOException {
+        if (indexWriter == null) {
+            Directory indexDir = FSDirectory.open(new File("index-directory"));
+            IndexWriterConfig config = 
+                new IndexWriterConfig(Version.LUCENE_4_10_2, new StandardAnalyzer());
+            indexWriter = new IndexWriter(indexDir, config);
+        }
+        return indexWriter;
+    }
+
+    public void closeIndexWriter() throws IOException {
+        if (indexWriter != null) indexWriter.close();
+   }
+    
  
-    public void rebuildIndexes() {
+    public void rebuildIndexes() throws IOException {
 
         Connection conn = null;
 
         // create a connection to the database to retrieve Items from MySQL
 	try {
 	    conn = DbManager.getConnection(true);
+
+        IndexWriter writer = getIndexWriter(false);
         
         // use JDBC to retrieve information from our database table, 
         // TODO: then build a Lucene index from it.
-        
-        // TODO: Does this code belong inside this try block, or should it be 
-        // in its own block?
         
         // statements are kind of like threads, so you need separate statement
         // objects for separate queries: One for the Items, and another for
@@ -55,6 +71,7 @@ public class Indexer {
         Integer howMany = 0;
         // for each Item in the database
         while (rs.next()) {
+            Document doc = new Document();
             // retrieve the easy attributes
             name = rs.getString("Name");
             itemID = rs.getString("ItemID");
@@ -108,7 +125,7 @@ public class Indexer {
 	}
     }    
 
-    public static void main(String args[]) {
+    public static void main(String args[]) throws IOException {
         Indexer idx = new Indexer();
         idx.rebuildIndexes();
     }   
