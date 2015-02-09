@@ -68,43 +68,44 @@ public class Indexer {
         // their Categories. If the queries are run on a single thread, the
         // following SQLexception is raised: "Operation not allowed after
         // ResultSet closed."
-        Statement s = conn.createStatement();
-        Statement c_s = conn.createStatement();
 
-        // TODO: Use PreparedStatement instead. much faster.
+        PreparedStatement itemsQueryStatement = conn.prepareStatement("SELECT * FROM Item");
         
-        ResultSet rs = s.executeQuery("SELECT * FROM Item");
-        String name, itemID, Description;
+        ResultSet rs = itemsQueryStatement.executeQuery();
+        String name, itemID, description;
         Integer howMany = 0;
         // for each Item in the database
         while (rs.next()) {
             Document doc = new Document();
+
             // retrieve the easy attributes
             name = rs.getString("Name");
             itemID = rs.getString("ItemID");
-            Description = rs.getString("Description");
+            description = rs.getString("Description");
 
             doc.add(new StringField("name", name, Field.Store.YES));
+            doc.add(new StringField("description", description, Field.Store.YES));
 
-            String query = "SELECT Category_Name FROM Category WHERE ItemID = " + itemID;
-            //String query = "SELECT * FROM Category";
-            ResultSet c_rs = c_s.executeQuery(query);
+            // retrieve and add categories to the document
+            PreparedStatement c_s = 
+                conn.prepareStatement("SELECT Category_Name FROM Category WHERE ItemID = " + itemID);
+            ResultSet c_rs = c_s.executeQuery();
             String categories = "";
             while (c_rs.next()) {
-                //System.out.println(c_rs.getString("Category_Name"));
-                //System.out.println(c_rs.getString("ItemID"));
-                categories += c_rs.getString("Category_Name") + " "; // bad
+                categories += c_rs.getString("Category_Name") + " ";
             }
+            doc.add(new StringField("categories", categories, Field.Store.YES));
 
-            String content = name; // + . . . 
+            String content = name + description + categories; // + . . . 
             doc.add(new TextField("content", content, Field.Store.NO));
 
             writer.addDocument(doc);
 
-            System.out.println(name);
-            //System.out.println(name + " //CATEGORIES// " + categories);
-            if (howMany.equals(10)) break;
+            //System.out.println(name);
+            //if (howMany.equals(10)) break;
             ++howMany;
+            if (howMany % 100 == 0)
+                System.out.println(howMany + " documents indexed");
         }
 
         closeIndexWriter();
