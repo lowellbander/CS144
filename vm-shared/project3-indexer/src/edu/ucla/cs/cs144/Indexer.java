@@ -36,8 +36,8 @@ public class Indexer {
 	try {
 	    conn = DbManager.getConnection(true);
         
-        // TODO: use JDBC to retrieve information from our database table, then
-        // build a Lucene index from it.
+        // use JDBC to retrieve information from our database table, 
+        // TODO: then build a Lucene index from it.
         
         // TODO: Does this code belong inside this try block, or should it be 
         // in its own block?
@@ -60,7 +60,6 @@ public class Indexer {
             itemID = rs.getString("ItemID");
             Description = rs.getString("Description");
 
-            //TODO: retrieve categories for this Item.
             String query = "SELECT Category_Name FROM Category WHERE ItemID = " + itemID;
             //String query = "SELECT * FROM Category";
             ResultSet c_rs = c_s.executeQuery(query);
