@@ -59,7 +59,14 @@ public class AuctionSearch implements IAuctionSearch {
 	public SearchResult[] spatialSearch(String query, SearchRegion region,
 			int numResultsToSkip, int numResultsToReturn) {
 		// TODO: Your code here!
-		return new SearchResult[0];
+		
+        //Get id of all items which fall within region
+        // store in resultSet
+        // get all results which match query
+        // Take intersection of sets
+        // return after skipResult arithmetic
+
+        return new SearchResult[0];
 	}
 
 	public String getXMLDataForItemId(String itemId) {
