@@ -27,34 +27,70 @@ public class Indexer {
     /** Creates a new instance of Indexer */
     public Indexer() {
     }
+
+    private IndexWriter indexWriter = null;
+
+    public IndexWriter getIndexWriter (boolean create) throws IOException {
+        if (indexWriter == null) {
+            Directory indexDir = FSDirectory.open(new File("index-directory"));
+            IndexWriterConfig config = 
+                new IndexWriterConfig(Version.LUCENE_4_10_2, new StandardAnalyzer());
+            indexWriter = new IndexWriter(indexDir, config);
+        }
+        return indexWriter;
+    }
+
+    public void closeIndexWriter() throws IOException {
+        if (indexWriter != null) indexWriter.close();
+   }
+    
  
-    public void rebuildIndexes() {
+    public void rebuildIndexes() throws IOException {
 
         Connection conn = null;
 
         // create a connection to the database to retrieve Items from MySQL
 	try {
 	    conn = DbManager.getConnection(true);
+
+        IndexWriter writer = getIndexWriter(false);
         
-        // TODO: use JDBC to retrieve information from our database table, then
-        // build a Lucene index from it.
+        // use JDBC to retrieve information from our database table, 
+        // TODO: then build a Lucene index from it.
         
-        // TODO: Does this code belong inside this try block, or should it be in
-        // its own block?
-        
+        // statements are kind of like threads, so you need separate statement
+        // objects for separate queries: One for the Items, and another for
+        // their Categories. If the queries are run on a single thread, the
+        // following SQLexception is raised: "Operation not allowed after
+        // ResultSet closed."
         Statement s = conn.createStatement();
+        Statement c_s = conn.createStatement();
         
-        ResultSet rs = s.executeQuery("SELECT Name FROM Item");
-        String name;
+        ResultSet rs = s.executeQuery("SELECT * FROM Item");
+        String name, itemID, Description;
         Integer howMany = 0;
+        // for each Item in the database
         while (rs.next()) {
+            Document doc = new Document();
+            // retrieve the easy attributes
             name = rs.getString("Name");
-            System.out.println(name);
+            itemID = rs.getString("ItemID");
+            Description = rs.getString("Description");
+
+            String query = "SELECT Category_Name FROM Category WHERE ItemID = " + itemID;
+            //String query = "SELECT * FROM Category";
+            ResultSet c_rs = c_s.executeQuery(query);
+            String categories = "";
+            while (c_rs.next()) {
+                //System.out.println(c_rs.getString("Category_Name"));
+                //System.out.println(c_rs.getString("ItemID"));
+                categories += c_rs.getString("Category_Name") + " "; // bad
+            }
+
+            System.out.println(name + " //CATEGORIES// " + categories);
             if (howMany.equals(10)) break;
             ++howMany;
         }
-
-        // System.out.println("Got this far without crashing!");
 
 	} catch (SQLException ex) {
 	    System.out.println(ex);
@@ -89,7 +125,7 @@ public class Indexer {
 	}
     }    
 
-    public static void main(String args[]) {
+    public static void main(String args[]) throws IOException {
         Indexer idx = new Indexer();
         idx.rebuildIndexes();
     }   
