@@ -22,12 +22,10 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 
+// these packages only here for testing
 import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.ScoreDoc;
 
-
-//import lucene.demo.search.MySearchEngine;
- 
-//import 
 
 public class Indexer {
     
@@ -72,6 +70,8 @@ public class Indexer {
         // ResultSet closed."
         Statement s = conn.createStatement();
         Statement c_s = conn.createStatement();
+
+        // TODO: Use PreparedStatement instead. much faster.
         
         ResultSet rs = s.executeQuery("SELECT * FROM Item");
         String name, itemID, Description;
@@ -96,12 +96,18 @@ public class Indexer {
                 categories += c_rs.getString("Category_Name") + " "; // bad
             }
 
+            String content = name; // + . . . 
+            doc.add(new TextField("content", content, Field.Store.NO));
+
             writer.addDocument(doc);
 
+            System.out.println(name);
             //System.out.println(name + " //CATEGORIES// " + categories);
             if (howMany.equals(10)) break;
             ++howMany;
         }
+
+        closeIndexWriter();
 
 	} catch (SQLException ex) {
 	    System.out.println(ex);
@@ -144,7 +150,23 @@ public class Indexer {
 
         // test that the indexes were built
         System.out.println("Performing search . . . ");
-        //MySearchEngine se = new MySearchEngine();
-        // TopDocs topDocs = se.performSearch("christopher", 3);
+        SearchEngine se = new SearchEngine();
+        try {
+            TopDocs topDocs = se.performSearch("Town", 3);
+            System.out.println("Results found: " + topDocs.totalHits);
+            ScoreDoc[] hits = topDocs.scoreDocs;
+            for (int i = 0; i < hits.length; i++) {
+                Document doc = se.getDocument(hits[i].doc);
+                System.out.println(doc.get("name"));
+                                   //+ " " + doc.get("city")
+                                   //+ " (" + hits[i].score + ")");
+
+            }
+        System.out.println("performSearch done");
+
+            
+        } catch (Exception e) {
+            System.out.println("Caught an exception");
+        }
     }   
 }
