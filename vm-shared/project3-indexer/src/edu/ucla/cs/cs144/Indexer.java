@@ -73,7 +73,7 @@ public class Indexer {
         
         ResultSet rs = itemsQueryStatement.executeQuery();
         String name, itemID, description;
-        Integer howMany = 0;
+        double howMany = 0;
         // for each Item in the database
         while (rs.next()) {
             Document doc = new Document();
@@ -84,6 +84,7 @@ public class Indexer {
             description = rs.getString("Description");
 
             doc.add(new StringField("name", name, Field.Store.YES));
+            doc.add(new StringField("itemID", itemID, Field.Store.YES));
             doc.add(new StringField("description", description, Field.Store.YES));
 
             // retrieve and add categories to the document
@@ -104,8 +105,11 @@ public class Indexer {
             //System.out.println(name);
             //if (howMany.equals(10)) break;
             ++howMany;
+            double total = 19532;
+            double percentComplete = howMany / total;
             if (howMany % 100 == 0)
-                System.out.println(howMany + " documents indexed");
+                System.out.println(howMany + " documents indexed. " 
+                        + percentComplete + " % complete");
         }
 
         closeIndexWriter();
