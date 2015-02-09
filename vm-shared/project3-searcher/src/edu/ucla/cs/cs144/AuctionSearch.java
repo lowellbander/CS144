@@ -53,6 +53,13 @@ public class AuctionSearch implements IAuctionSearch {
 	public SearchResult[] basicSearch(String query, int numResultsToSkip, 
 			int numResultsToReturn) {
 		// TODO: Your code here!
+        System.out.println("performing basic search");
+        try {
+            SearchEngine se = new SearchEngine();
+            
+        } catch (Exception e) {
+            System.out.println("Caught exception!");
+        }
 		return new SearchResult[0];
 	}
 
