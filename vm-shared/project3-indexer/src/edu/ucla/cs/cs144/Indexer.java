@@ -22,6 +22,13 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 
+import org.apache.lucene.search.TopDocs;
+
+
+//import lucene.demo.search.MySearchEngine;
+ 
+//import 
+
 public class Indexer {
     
     /** Creates a new instance of Indexer */
@@ -77,6 +84,8 @@ public class Indexer {
             itemID = rs.getString("ItemID");
             Description = rs.getString("Description");
 
+            doc.add(new StringField("name", name, Field.Store.YES));
+
             String query = "SELECT Category_Name FROM Category WHERE ItemID = " + itemID;
             //String query = "SELECT * FROM Category";
             ResultSet c_rs = c_s.executeQuery(query);
@@ -87,7 +96,9 @@ public class Indexer {
                 categories += c_rs.getString("Category_Name") + " "; // bad
             }
 
-            System.out.println(name + " //CATEGORIES// " + categories);
+            writer.addDocument(doc);
+
+            //System.out.println(name + " //CATEGORIES// " + categories);
             if (howMany.equals(10)) break;
             ++howMany;
         }
@@ -126,7 +137,14 @@ public class Indexer {
     }    
 
     public static void main(String args[]) throws IOException {
-        Indexer idx = new Indexer();
-        idx.rebuildIndexes();
+        Indexer indexer = new Indexer();
+        System.out.println("Rebuilding indexes . . .");
+        indexer.rebuildIndexes();
+        System.out.println("Done rebuilding indexes.");
+
+        // test that the indexes were built
+        System.out.println("Performing search . . . ");
+        //MySearchEngine se = new MySearchEngine();
+        // TopDocs topDocs = se.performSearch("christopher", 3);
     }   
 }
