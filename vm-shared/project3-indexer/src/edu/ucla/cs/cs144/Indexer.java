@@ -81,7 +81,6 @@ public class Indexer {
 
             doc.add(new StringField("name", name, Field.Store.YES));
             doc.add(new StringField("itemID", itemID, Field.Store.YES));
-            doc.add(new StringField("description", description, Field.Store.NO));
 
             // retrieve and add categories to the document
             PreparedStatement c_s = 
