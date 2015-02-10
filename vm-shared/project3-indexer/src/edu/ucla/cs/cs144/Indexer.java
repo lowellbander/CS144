@@ -89,14 +89,14 @@ public class Indexer {
             doc.add(new StringField("description", description, Field.Store.NO));
 
             // retrieve and add categories to the document
-            // PreparedStatement c_s = 
+            PreparedStatement c_s = 
                 conn.prepareStatement("SELECT Category_Name FROM Category WHERE ItemID = " + itemID);
-            // ResultSet c_rs = c_s.executeQuery();
+            ResultSet c_rs = c_s.executeQuery();
             String categories = "";
-            // while (c_rs.next()) {
-            //     categories += c_rs.getString("Category_Name") + " ";
-            // }
-            // doc.add(new StringField("categories", categories, Field.Store.NO));
+            while (c_rs.next()) {
+                categories += c_rs.getString("Category_Name") + " ";
+            }
+            doc.add(new StringField("categories", categories, Field.Store.NO));
 
             String content = name + description + categories; // + . . . 
             doc.add(new TextField("content", content, Field.Store.NO));
@@ -108,7 +108,7 @@ public class Indexer {
             ++howMany;
             double total = 19532;
             double percentComplete = (howMany / total) * 100;
-            if (howMany % 100 == 0)
+            if (howMany % 1000 == 0)
                 System.out.println(howMany + " documents indexed. " 
                         + percentComplete + " % complete");
         }
