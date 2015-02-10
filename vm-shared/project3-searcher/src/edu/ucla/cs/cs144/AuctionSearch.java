@@ -6,6 +6,7 @@ import java.io.File;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.text.SimpleDateFormat;
 
@@ -54,13 +55,20 @@ public class AuctionSearch implements IAuctionSearch {
 			int numResultsToReturn) {
 		// TODO: Your code here!
         System.out.println("performing basic search");
+        SearchResult[] results = new SearchResult[numResultsToReturn];
         try {
             SearchEngine se = new SearchEngine();
+            TopDocs topDocs = se.performSearch(query, numResultsToSkip + numResultsToReturn);
+            ScoreDoc[] hits = topDocs.scoreDocs;
+            for (int i = numResultsToSkip, j = 0; j < results.length; ++i, ++j) {
+                Document doc = se.getDocument(hits[i].doc);
+                results[j] = new SearchResult(doc.get("itemID"), doc.get("name"));
+            }
             
         } catch (Exception e) {
             System.out.println("Caught exception!");
         }
-		return new SearchResult[0];
+		return results;
 	}
 
 	public SearchResult[] spatialSearch(String query, SearchRegion region,
