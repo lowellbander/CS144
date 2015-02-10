@@ -55,16 +55,20 @@ public class AuctionSearch implements IAuctionSearch {
 			int numResultsToReturn) {
 		// TODO: Your code here!
         System.out.println("performing basic search");
-        SearchResult[] results = new SearchResult[numResultsToReturn];
+        SearchResult[] results = new SearchResult[0];
+        //SearchResult[] results = new SearchResult[numResultsToReturn];
         try {
             SearchEngine se = new SearchEngine();
             TopDocs topDocs = se.performSearch(query, numResultsToSkip + numResultsToReturn);
             ScoreDoc[] hits = topDocs.scoreDocs;
-            for (int i = numResultsToSkip, j = 0; j < results.length; ++i, ++j) {
-                Document doc = se.getDocument(hits[i].doc);
-                results[j] = new SearchResult(doc.get("itemID"), doc.get("name"));
+            hits = Arrays.copyOfRange(hits, numResultsToSkip, hits.length);
+            results = new SearchResult[hits.length];
+            int i = 0;
+            for (ScoreDoc hit : hits) {
+                Document doc = se.getDocument(hit.doc);
+                results[i] = new SearchResult(doc.get("itemID"), doc.get("name"));
+                ++i;
             }
-            
         } catch (Exception e) {
             System.out.println("Caught exception!");
         }
