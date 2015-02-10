@@ -84,18 +84,18 @@ public class Indexer {
             description = rs.getString("Description");
 
             doc.add(new StringField("name", name, Field.Store.YES));
-            doc.add(new StringField("itemID", itemID, Field.Store.YES));
-            doc.add(new StringField("description", description, Field.Store.YES));
+            doc.add(new StringField("itemID", itemID, Field.Store.NO));
+            doc.add(new StringField("description", description, Field.Store.NO));
 
             // retrieve and add categories to the document
-            PreparedStatement c_s = 
+            // PreparedStatement c_s = 
                 conn.prepareStatement("SELECT Category_Name FROM Category WHERE ItemID = " + itemID);
-            ResultSet c_rs = c_s.executeQuery();
+            // ResultSet c_rs = c_s.executeQuery();
             String categories = "";
-            while (c_rs.next()) {
-                categories += c_rs.getString("Category_Name") + " ";
-            }
-            doc.add(new StringField("categories", categories, Field.Store.YES));
+            // while (c_rs.next()) {
+            //     categories += c_rs.getString("Category_Name") + " ";
+            // }
+            // doc.add(new StringField("categories", categories, Field.Store.NO));
 
             String content = name + description + categories; // + . . . 
             doc.add(new TextField("content", content, Field.Store.NO));
@@ -106,7 +106,7 @@ public class Indexer {
             //if (howMany.equals(10)) break;
             ++howMany;
             double total = 19532;
-            double percentComplete = howMany / total;
+            double percentComplete = (howMany / total) * 100;
             if (howMany % 100 == 0)
                 System.out.println(howMany + " documents indexed. " 
                         + percentComplete + " % complete");
