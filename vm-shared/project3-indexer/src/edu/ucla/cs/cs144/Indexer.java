@@ -22,11 +22,6 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 
-// these packages only here for testing
-import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.search.ScoreDoc;
-
-
 public class Indexer {
     
     /** Creates a new instance of Indexer */
@@ -63,7 +58,6 @@ public class Indexer {
         IndexWriter writer = getIndexWriter();
         
         // use JDBC to retrieve information from our database table, 
-        // TODO: then build a Lucene index from it.
         
         // statements are kind of like threads, so you need separate statement
         // objects for separate queries: One for the Items, and another for
@@ -94,18 +88,16 @@ public class Indexer {
                 conn.prepareStatement("SELECT Category_Name FROM Category WHERE ItemID = " + itemID);
             ResultSet c_rs = c_s.executeQuery();
             String categories = "";
-            while (c_rs.next()) {
+            while (c_rs.next())
                 categories += c_rs.getString("Category_Name") + " ";
-            }
+            
             doc.add(new StringField("categories", categories, Field.Store.NO));
 
-            String content = name + description + categories; // + . . . 
+            String content = name + description + categories; 
             doc.add(new TextField("content", content, Field.Store.NO));
 
             writer.addDocument(doc);
 
-            //System.out.println(name);
-            //if (howMany.equals(10)) break;
             ++howMany;
             double total = 19532;
             double percentComplete = (howMany / total) * 100;
@@ -154,26 +146,5 @@ public class Indexer {
         System.out.println("Rebuilding indexes . . .");
         indexer.rebuildIndexes();
         System.out.println("Done rebuilding indexes.");
-
-        // test that the indexes were built
-        System.out.println("Performing search . . . ");
-        SearchEngine se = new SearchEngine();
-        try {
-            TopDocs topDocs = se.performSearch("Town", 3);
-            System.out.println("Results found: " + topDocs.totalHits);
-            ScoreDoc[] hits = topDocs.scoreDocs;
-            for (int i = 0; i < hits.length; i++) {
-                Document doc = se.getDocument(hits[i].doc);
-                System.out.println(doc.get("name"));
-                                   //+ " " + doc.get("city")
-                                   //+ " (" + hits[i].score + ")");
-
-            }
-        System.out.println("performSearch done");
-
-            
-        } catch (Exception e) {
-            System.out.println("Caught an exception");
-        }
     }   
 }
