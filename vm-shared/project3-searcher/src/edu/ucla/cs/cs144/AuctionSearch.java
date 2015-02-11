@@ -53,10 +53,7 @@ public class AuctionSearch implements IAuctionSearch {
 	
 	public SearchResult[] basicSearch(String query, int numResultsToSkip, 
 			int numResultsToReturn) {
-		// TODO: Your code here!
-        System.out.println("performing basic search");
         SearchResult[] results = new SearchResult[0];
-        //SearchResult[] results = new SearchResult[numResultsToReturn];
         try {
             SearchEngine se = new SearchEngine();
             TopDocs topDocs = se.performSearch(query, numResultsToSkip + numResultsToReturn);
