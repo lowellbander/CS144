@@ -7,7 +7,6 @@ CREATE TABLE User (
 );
 
 CREATE TABLE Item (
-    -- ItemID VARCHAR(20),
     ItemID BIGINT,
     Name VARCHAR(255),
     Buy_Price FLOAT(10,2),
@@ -26,7 +25,6 @@ CREATE TABLE Item (
 
 CREATE TABLE Bid (
     BidderID VARCHAR(20),
-    -- ItemID VARCHAR(20),
     ItemID BIGINT,
     Time TIMESTAMP,
     Amount FLOAT(10,2),
@@ -37,7 +35,6 @@ CREATE TABLE Bid (
 
 CREATE TABLE Category (
     Category_Name VARCHAR(255),
-    -- ItemID VARCHAR(20),
     ItemID BIGINT,
     PRIMARY KEY (Category_Name, ItemID),
     FOREIGN KEY (ItemID) REFERENCES Item(ItemID)
