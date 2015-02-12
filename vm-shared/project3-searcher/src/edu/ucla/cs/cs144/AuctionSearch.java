@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.HashSet;
 import java.text.SimpleDateFormat;
 
 import java.sql.Connection;
@@ -77,12 +78,59 @@ public class AuctionSearch implements IAuctionSearch {
 		// TODO: Your code here!
 		
         //Get id of all items which fall within region
+        SearchResult[] spatialResult = null;
+
+        try{
+            Connection dbConnection = DbManager.getConnection(true);
+            //Get location query results
+            String poly = "Polygon((" + region.getLx() + " " + region.getLy() + ", " + 
+                                        region.getLx() + " " + region.getRy() + ", " +
+                                        region.getRx() + " " + region.getRy() + ", " +
+                                        region.getRx() + " " + region.getLy() + ", " +
+                                        region.getLx() + " " + region.getLy() + ")) "; 
+            String sqlQuery = "SELECT ItemID FROM ItemSpatial WHERE MBRContains(GeomFromText(' "+ poly +"'), Coordinates);";
+            Statement queryStatment = dbConnection.createStatement();
+            ResultSet validLocationResults = queryStatment.executeQuery(sqlQuery);
+            
+            //basic query results
+            SearchResult[] queryResult = basicSearch(query, 0, Integer.MAX_VALUE);
+
+            //put all ResultSet ItemIDs into set for lookup
+            HashSet<String> locationResultSet = new HashSet<String>();
+                    
+    
+            while(validLocationResults.next()){
+                locationResultSet.add(validLocationResults.getString("ItemID"));
+            }    
+            
+           // if query result is in location result, add to list
+            ArrayList<SearchResult> finalList = new ArrayList<SearchResult>();
+            for(SearchResult sr : queryResult){
+                if(locationResultSet.contains(sr.getItemId()))
+                    finalList.add(sr);
+            }
+
+            //compute length  
+            int length = (numResultsToSkip + numResultsToReturn > finalList.size()) ? (finalList.size() - numResultsToSkip) : numResultsToReturn;
+            
+            //fill spatialResult
+            spatialResult = new SearchResult[length];
+            for(int i=numResultsToSkip;i<length; ++i){
+                spatialResult[i] = finalList.get(i);
+            }   
+            dbConnection.close();
+        }
+        catch(SQLException e){
+            System.out.println(e);
+        }
+        finally{
+            return spatialResult;
+        }    
         // store in resultSet
         // get all results which match query
         // Take intersection of sets
         // return after skipResult arithmetic
 
-        return new SearchResult[0];
 	}
 
 	public String getXMLDataForItemId(String itemId) {
