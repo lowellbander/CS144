@@ -88,10 +88,10 @@ public class AuctionSearch implements IAuctionSearch {
                                         region.getRx() + " " + region.getRy() + ", " +
                                         region.getRx() + " " + region.getLy() + ", " +
                                         region.getLx() + " " + region.getLy() + ")) "; 
-            String sqlQuery = "SELECT ItemID FROM ItemSpatial WHERE MBRContains(GeomFromText(' "+ poly +"'), Coordinates);";
+            String sqlQuery = "SELECT ItemID FROM ItemSpatial WHERE Contains(GeomFromText(' "+ poly +"'), Coordinates);";
+            
             Statement queryStatment = dbConnection.createStatement();
             ResultSet validLocationResults = queryStatment.executeQuery(sqlQuery);
-            
             //basic query results
             SearchResult[] queryResult = basicSearch(query, 0, Integer.MAX_VALUE);
 
@@ -121,7 +121,7 @@ public class AuctionSearch implements IAuctionSearch {
             dbConnection.close();
         }
         catch(SQLException e){
-            System.out.println(e);
+            e.printStackTrace();
         }
         finally{
             return spatialResult;
@@ -135,7 +135,26 @@ public class AuctionSearch implements IAuctionSearch {
 
 	public String getXMLDataForItemId(String itemId) {
 		// TODO: Your code here!
-		return "";
+		
+        String result = "";
+        try{
+            Connection dbConnection = DbManager.getConnection(true);
+        
+            String sqlQuery = "SELECT * FROM Item WHERE ItemID = " + itemId + " ;";
+            Statement queryStatment = dbConnection.createStatement();
+            ResultSet itemResult = queryStatment.executeQuery(sqlQuery);
+            if(!itemResult.isBeforeFirst()){
+                dbConnection.close();    
+                return result;
+            }  
+            dbConnection.close();
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        finally{
+            return result;
+        }
 	}
 	
 	public String echo(String message) {
