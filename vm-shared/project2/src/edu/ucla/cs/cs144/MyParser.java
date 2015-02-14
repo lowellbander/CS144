@@ -243,7 +243,8 @@ class MyParser {
                 if(Buy_Price == "") 
                     Buy_Price = " ";
                 String descriptionFullText = getElementTextByTagNameNR(item, "Description");
-                String Description = descriptionFullText.substring(0, Math.min(descriptionFullText.length(), 4000));
+                //String Description = descriptionFullText.substring(0, Math.min(descriptionFullText.length(), 4000));
+                String Description = descriptionFullText;
                 Element[] categoryList = getElementsByTagNameNR(item, "Category");
                 Element seller = getElementByTagNameNR(item, "Seller");
                 String sellerID = seller.getAttribute("UserID");
