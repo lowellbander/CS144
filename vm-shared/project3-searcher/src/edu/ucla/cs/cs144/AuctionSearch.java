@@ -229,14 +229,8 @@ public class AuctionSearch implements IAuctionSearch {
                             bidString += "</Bidder>\n";
                         }
 
-                        String time = bidderResult.getTimestamp("Time").toString();
-                        SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        SimpleDateFormat output = new SimpleDateFormat("MMM-dd-yy HH:mm:ss");
-                        try{ 
-                                Date newTime = input.parse(time);
-                                time = "" + output.format(newTime);
-                                bidString += time;
-                        } catch (Exception e){}   
+                        String time = convertToXMLTimeString(bidderResult.getTimestamp("Time").toString());
+                        bidString += "<Time>" + time + "</Time>\n";
                         
                         bidString += "<Country>"+ String.format("$%.2f",bidResult.getFloat("Amount")) + "</Amount>\n";
                         bidString += "</Bid>\n";
@@ -261,7 +255,10 @@ public class AuctionSearch implements IAuctionSearch {
             }
             result += locationString; 
            
-             
+            result += "<Country>" + escapeString(itemResult.getString("Country")) + "</Country>\n";
+            result += "<Started>"+ convertToXMLTimeString(itemResult.getTimestamp("Started").toString()) + "</Started>\n";
+            result += "<Ends>" + convertToXMLTimeString(itemResult.getTimestamp("Ends").toString()) + "</Ends>\n";
+            
             dbConnection.close();
         }
         catch(SQLException e){
@@ -271,7 +268,17 @@ public class AuctionSearch implements IAuctionSearch {
             return result;
         }
 	}
-    
+
+    private String convertToXMLTimeString(String sqlTime){
+        String xmlTime = "";
+        SimpleDateFormat input = new SimpleDateFormat("yyy-MM-dd HH:mm:ss");
+        SimpleDateFormat output = new SimpleDateFormat("MMM-dd-yy HH:mm:ss");
+        try{
+            Date newDateTime = input.parse(sqlTime);
+            xmlTime += output.format(newDateTime);
+        }catch(Exception e){}
+        return xmlTime;
+    }    
     public String escapeString(String input){
         String escapedString = input;
         String[] charsToReplace = { "<", ">", "&", "\"", "\'" };
