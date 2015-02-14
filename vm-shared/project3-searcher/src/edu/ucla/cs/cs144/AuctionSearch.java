@@ -15,6 +15,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.analysis.Analyzer;
@@ -89,9 +90,9 @@ public class AuctionSearch implements IAuctionSearch {
                                         region.getRx() + " " + region.getLy() + ", " +
                                         region.getLx() + " " + region.getLy() + ")) "; 
             String sqlQuery = "SELECT ItemID FROM ItemSpatial WHERE Contains(GeomFromText(' "+ poly +"'), Coordinates);";
-            
-            Statement queryStatment = dbConnection.createStatement();
-            ResultSet validLocationResults = queryStatment.executeQuery(sqlQuery);
+            //System.out.println(sqlQuery);
+            Statement queryStatement = dbConnection.createStatement();
+            ResultSet validLocationResults = queryStatement.executeQuery(sqlQuery);
             //basic query results
             SearchResult[] queryResult = basicSearch(query, 0, Integer.MAX_VALUE);
 
@@ -140,13 +141,47 @@ public class AuctionSearch implements IAuctionSearch {
         try{
             Connection dbConnection = DbManager.getConnection(true);
         
-            String sqlQuery = "SELECT * FROM Item WHERE ItemID = " + itemId + " ;";
-            Statement queryStatment = dbConnection.createStatement();
-            ResultSet itemResult = queryStatment.executeQuery(sqlQuery);
+            //modularize query string generation into method?
+            String itemSqlQuery = "SELECT * FROM Item WHERE ItemID = ? ;";
+            String userSqlQuery = "SELECT * FROM User WHERE UserID = " + itemId + " ;";
+            String bidSqlQuery = "SELECT * FROM Bid WHERE ItemID = " + itemId + " ;";
+            String categorySqlQuery = "SELECT * FROM Category WHERE ItemID = " + itemId+ " ;";
+
+            //TODO: Use prepared statements for better perf?            
+            PreparedStatement itemQueryStatement = dbConnection.prepareStatement("SELECT * FROM Item WHERE ItemID = ?");
+            itemQueryStatement.setString(1, itemId);
+            ResultSet itemResult = itemQueryStatement.executeQuery();
+            
+            PreparedStatement userQueryStatement = dbConnection.prepareStatement(userSqlQuery);
+            ResultSet userResult = userQueryStatement.executeQuery();
+            PreparedStatement bidQueryStatement = dbConnection.prepareStatement(bidSqlQuery);
+            ResultSet bidResult = bidQueryStatement.executeQuery();
+            PreparedStatement categoryQueryStatement = dbConnection.prepareStatement(categorySqlQuery);
+            ResultSet categoryResult = categoryQueryStatement.executeQuery();
+
+            //itemID doesn't exist
             if(!itemResult.isBeforeFirst()){
                 dbConnection.close();    
                 return result;
             }  
+            else{
+                itemResult.next();
+            } 
+            //make function for enclosing with correct tag?
+            result += "<Item ItemID=\"" + itemId + "\">";
+            result += "<Name>" + itemResult.getString("Name") + "</Name>\n";
+            
+            if(categoryResult.isBeforeFirst()){ 
+                String categories = "";
+                while(categoryResult.next()){
+                    categories += "<Category>" + escapeString(categoryResult.getString("Category")) + "</Category>\n";
+                }    
+                result += categories;
+            }
+            String currently = String.format("$%.2f",itemResult.getFloat("Currently"));
+            result += "<Currently>" + currently + "</Currently>\n";
+            
+            
             dbConnection.close();
         }
         catch(SQLException e){
@@ -156,7 +191,17 @@ public class AuctionSearch implements IAuctionSearch {
             return result;
         }
 	}
-	
+    
+    public String escapeString(String input){
+        String escapedString = input;
+        String[] charsToReplace = { "<", ">", "&", "\"", "\'" };
+        String[] charsToReplaceWith = { "&lt;", "&gt;", "&amp;", "&quot;", "&apos;" };
+        //Hashmap would be better
+        for(int i=0; i<charsToReplace.length; i++){
+            escapedString.replaceAll(charsToReplace[i], charsToReplaceWith[i]);
+        }
+        return escapedString;
+    }	
 	public String echo(String message) {
 		return message;
 	}
