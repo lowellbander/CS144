@@ -211,7 +211,7 @@ public class AuctionSearch implements IAuctionSearch {
                         bidString += "<Bid>\n";
                         
                         String bidderID = bidResult.getString("BidderID");
-                        PreparedStatement bidderStatement = dbConnection.prepareStatement("SELECT * FROM User WHERE UserID = " + bidderID + ";");
+                        PreparedStatement bidderStatement = dbConnection.prepareStatement("SELECT * FROM User WHERE UserID = \"" + bidderID + "\";");
                         ResultSet bidderResult = bidderStatement.executeQuery();
                         
                         if(bidderResult.next()){
@@ -226,7 +226,7 @@ public class AuctionSearch implements IAuctionSearch {
                             bidString += "</Bidder>\n";
                         }
 
-                        String time = convertToXMLTimeString(bidderResult.getTimestamp("Time").toString());
+                        String time = convertToXMLTimeString(bidResult.getTimestamp("Time").toString());
                         bidString += "<Time>" + time + "</Time>\n";
                         
                         bidString += "<Country>"+ String.format("$%.2f",bidResult.getFloat("Amount")) + "</Amount>\n";
