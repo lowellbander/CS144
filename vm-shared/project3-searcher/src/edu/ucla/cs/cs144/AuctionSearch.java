@@ -216,14 +216,37 @@ public class AuctionSearch implements IAuctionSearch {
                         String bidderID = bidResult.getString("BidderID");
                         PreparedStatement bidderStatement = dbConnection.prepareStatement("SELECT * FROM User WHERE UserID = " + bidderID + ";");
                         ResultSet bidderResult = bidderStatement.executeQuery();
+                        
                         if(bidderResult.next()){
                             bidString += "<Bidder Rating=\"" + bidderResult.getString("Rating") + "\" UserID=\"" + bidderID + "\">\n";
-                            
+                           try{
+                                bidString += "<Location>" + bidderResult.getString("Location")+"</Location>\n";
+                            } catch(Exception e){}
+                           try{
+                                bidString += "<Country>" + bidderResult.getString("Country")+"</Country>\n";
+                            } catch(Exception e){}
+
+                            bidString += "</Bidder>\n";
                         }
+
+                        String time = bidderResult.getTimestamp("Time").toString();
+                        SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        SimpleDateFormat output = new SimpleDateFormat("MMM-dd-yy HH:mm:ss");
+                        try{ 
+                                Date newTime = input.parse(time);
+                                time = "" + output.format(newTime);
+                                bidString += time;
+                        } catch (Exception e){}   
+                        
+                        bidString += "<Country>"+ String.format("$%.2f",bidResult.getFloat("Amount")) + "</Amount>\n";
+                        bidString += "</Bid>\n";
                         
                     }
+                    bidString += "</Bids>\n";
                 } 
             }
+
+            
             
             dbConnection.close();
         }
