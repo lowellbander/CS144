@@ -200,7 +200,7 @@ public class AuctionSearch implements IAuctionSearch {
             int numOfBids = 0;
             if(countBidResult.next()){
                 numOfBids = countBidResult.getInt("COUNT(*)");
-                result += "<Number_of_Bids>"+numOfBids+"</Number_of_Bids>";    
+                result += "<Number_of_Bids>"+numOfBids+"</Number_of_Bids>\n";    
             }          
         
             String bidString = "";
@@ -245,9 +245,23 @@ public class AuctionSearch implements IAuctionSearch {
                     bidString += "</Bids>\n";
                 } 
             }
-
             
-            
+            String locationString = "";
+            try{
+                locationString += "<Location";
+                String latitude = escapeString(itemResult.getString("Latitide"));
+                if(!latitude.equals("0.0000000"))
+                    locationString += " Latitude=\"" + latitude + "\"";
+                String longitude = escapeString (itemResult.getString("Longitude"));
+                if(!longitude.equals("0.0000000"))
+                    locationString += " Longitude=\"" + longitude + "\"";
+            }catch(SQLException e){ locationString+= ">"; }
+            finally{
+                locationString+=  escapeString(itemResult.getString("Location"))+"</Location>\n";
+            }
+            result += locationString; 
+           
+             
             dbConnection.close();
         }
         catch(SQLException e){
