@@ -89,8 +89,6 @@ public class Indexer {
             String categories = "";
             while (c_rs.next())
                 categories += c_rs.getString("Category_Name") + " ";
-            
-            doc.add(new StringField("categories", categories, Field.Store.NO));
 
             String content = name + description + categories; 
             doc.add(new TextField("content", content, Field.Store.NO));
