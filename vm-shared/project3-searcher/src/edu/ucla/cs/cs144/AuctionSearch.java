@@ -193,15 +193,37 @@ public class AuctionSearch implements IAuctionSearch {
                 result+="<Buy_Price>"+buyPrice+"</Buy_Price>\n";
             String firstBid = String.format("$%.2f", itemResult.getFloat("First_Bid"));
             result += "<First_Bid>"+firstBid+"</First_Bid>\n";
-            
-            PreparedStatement countBidQuery = dbConnection.prepareStatement("SELECT COUNT(*) FROM Bid WHERE ItemID = " + itemId + ";");
-            ResultSet countBidResult = countBidQuery.executeQuery();
+           
+            //Bid data strings 
+            PreparedStatement countBidStatement = dbConnection.prepareStatement("SELECT COUNT(*) FROM Bid WHERE ItemID = " + itemId + ";");
+            ResultSet countBidResult = countBidStatement.executeQuery();
             int numOfBids = 0;
             if(countBidResult.next()){
                 numOfBids = countBidResult.getInt("COUNT(*)");
                 result += "<Number_of_Bids>"+numOfBids+"</Number_of_Bids>";    
             }          
-            
+        
+            String bidString = "";
+            if(numOfBids != 0){
+                if(!bidResult.isBeforeFirst()){
+                    bidString += "<Bids />\n";
+                }
+                else{
+                    bidString += "<Bids>\n";
+                    while(bidResult.next()){
+                        bidString += "<Bid>\n";
+                        
+                        String bidderID = bidResult.getString("BidderID");
+                        PreparedStatement bidderStatement = dbConnection.prepareStatement("SELECT * FROM User WHERE UserID = " + bidderID + ";");
+                        ResultSet bidderResult = bidderStatement.executeQuery();
+                        if(bidderResult.next()){
+                            bidString += "<Bidder Rating=\"" + bidderResult.getString("Rating") + "\" UserID=\"" + bidderID + "\">\n";
+                            
+                        }
+                        
+                    }
+                } 
+            }
             
             dbConnection.close();
         }
