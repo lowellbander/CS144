@@ -14,7 +14,7 @@ CREATE TABLE Item (
     Started TIMESTAMP,
     Ends TIMESTAMP,
     SellerID VARCHAR(20),
-    Description TEXT,
+    Description VARCHAR(4000),
     Location VARCHAR(255),
     Country VARCHAR(255),
     Latitude DOUBLE(10,7),
