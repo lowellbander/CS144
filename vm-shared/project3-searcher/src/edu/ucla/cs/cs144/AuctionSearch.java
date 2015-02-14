@@ -156,6 +156,7 @@ public class AuctionSearch implements IAuctionSearch {
             ResultSet userResult = userQueryStatement.executeQuery();
             PreparedStatement bidQueryStatement = dbConnection.prepareStatement(bidSqlQuery);
             ResultSet bidResult = bidQueryStatement.executeQuery();
+            
             PreparedStatement categoryQueryStatement = dbConnection.prepareStatement(categorySqlQuery);
             ResultSet categoryResult = categoryQueryStatement.executeQuery();
 
@@ -168,18 +169,38 @@ public class AuctionSearch implements IAuctionSearch {
                 itemResult.next();
             } 
             //make function for enclosing with correct tag?
-            result += "<Item ItemID=\"" + itemId + "\">";
+            result += "<Item ItemID=\"" + itemId + "\">\n";
             result += "<Name>" + itemResult.getString("Name") + "</Name>\n";
             
             if(categoryResult.isBeforeFirst()){ 
                 String categories = "";
-                while(categoryResult.next()){
-                    categories += "<Category>" + escapeString(categoryResult.getString("Category")) + "</Category>\n";
+                try{
+                    while(categoryResult.next()){
+                        categories += "<Category>" + escapeString(categoryResult.getString("Category")) + "</Category>\n";
+                    }
+                }
+                catch(SQLException e){ //don't print anything 
                 }    
                 result += categories;
             }
-            String currently = String.format("$%.2f",itemResult.getFloat("Currently"));
-            result += "<Currently>" + currently + "</Currently>\n";
+            try{ 
+                String currently = String.format("$%.2f",itemResult.getFloat("Currently"));
+                result += "<Currently>" + currently + "</Currently>\n";
+            }catch(SQLException e){}
+            
+            String buyPrice = String.format("$%.2f", itemResult.getFloat("Buy_Price"));
+            if(!buyPrice.equals("$0.00"))
+                result+="<Buy_Price>"+buyPrice+"</Buy_Price>\n";
+            String firstBid = String.format("$%.2f", itemResult.getFloat("First_Bid"));
+            result += "<First_Bid>"+firstBid+"</First_Bid>\n";
+            
+            PreparedStatement countBidQuery = dbConnection.prepareStatement("SELECT COUNT(*) FROM Bid WHERE ItemID = " + itemId + ";");
+            ResultSet countBidResult = countBidQuery.executeQuery();
+            int numOfBids = 0;
+            if(countBidResult.next()){
+                numOfBids = countBidResult.getInt("COUNT(*)");
+                result += "<Number_of_Bids>"+numOfBids+"</Number_of_Bids>";    
+            }          
             
             
             dbConnection.close();
