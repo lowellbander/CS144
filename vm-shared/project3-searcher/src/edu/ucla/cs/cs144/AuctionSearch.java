@@ -143,7 +143,6 @@ public class AuctionSearch implements IAuctionSearch {
         
             //modularize query string generation into method?
             String itemSqlQuery = "SELECT * FROM Item WHERE ItemID = ? ;";
-            String userSqlQuery = "SELECT * FROM User WHERE UserID = " + itemId + " ;";
             String bidSqlQuery = "SELECT * FROM Bid WHERE ItemID = " + itemId + " ;";
             String categorySqlQuery = "SELECT * FROM Category WHERE ItemID = " + itemId+ " ;";
 
@@ -152,8 +151,6 @@ public class AuctionSearch implements IAuctionSearch {
             itemQueryStatement.setString(1, itemId);
             ResultSet itemResult = itemQueryStatement.executeQuery();
             
-            PreparedStatement userQueryStatement = dbConnection.prepareStatement(userSqlQuery);
-            ResultSet userResult = userQueryStatement.executeQuery();
             PreparedStatement bidQueryStatement = dbConnection.prepareStatement(bidSqlQuery);
             ResultSet bidResult = bidQueryStatement.executeQuery();
             
@@ -240,6 +237,7 @@ public class AuctionSearch implements IAuctionSearch {
                 } 
             }
             
+            //Location
             String locationString = "";
             try{
                 locationString += "<Location";
@@ -259,6 +257,19 @@ public class AuctionSearch implements IAuctionSearch {
             result += "<Started>"+ convertToXMLTimeString(itemResult.getTimestamp("Started").toString()) + "</Started>\n";
             result += "<Ends>" + convertToXMLTimeString(itemResult.getTimestamp("Ends").toString()) + "</Ends>\n";
             
+            //Seller
+            String sellerString = "";
+            String sellerID = itemResult.getString("SellerID");
+            String sellerSqlQuery = "SELECT * FROM User WHERE UserID = \"" + sellerID + "\";";
+            PreparedStatement sellerStatement = dbConnection.prepareStatement(sellerSqlQuery);
+            ResultSet sellerResult = sellerStatement.executeQuery(); 
+            if(sellerResult.next()){
+                sellerString += "<Seller Rating=\""+ sellerResult.getString("Rating")+"\" UserID=\"" + sellerID + "\" />\n";
+            }
+            result += sellerString;
+
+            //description
+
             dbConnection.close();
         }
         catch(SQLException e){
