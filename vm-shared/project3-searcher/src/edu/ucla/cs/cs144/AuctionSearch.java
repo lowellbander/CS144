@@ -269,7 +269,13 @@ public class AuctionSearch implements IAuctionSearch {
             result += sellerString;
 
             //description
+            String descriptionString = "";
+            try{
+                descriptionString = escapeString(itemResult.getString("Description"));
+            } catch(SQLException e) {}
+            result += "<Description>"+descriptionString +"</Description>\n";
 
+            result += "</Item>";
             dbConnection.close();
         }
         catch(SQLException e){
