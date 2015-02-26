@@ -13,6 +13,10 @@ public class ItemServlet extends HttpServlet implements Servlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        // your codes here
+                // your codes here
+        String pageTitle = "My Page Test";
+        request.setAttribute("title", pageTitle);
+        request.getRequestDispatcher("/getItem.jsp").forward(request,response);
+        
     }
 }
