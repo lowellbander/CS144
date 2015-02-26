@@ -14,19 +14,18 @@ public class SearchServlet extends HttpServlet implements Servlet {
     protected void doGet(HttpServletRequest request, 
             HttpServletResponse response) 
         throws ServletException, IOException {
-        // your codes here
-        // TODO: extract the value of the parameters q, numResultsToSkip, 
-        // and numResultsToReturn from the request and 
+        
         // TODO: retrieve the matching results from the eBay data.
         
+        // TODO: Deprecate.
         String pageTitle = "the page title";
         request.setAttribute("title", pageTitle);
 
-        String query = "i'm the best query ever.";
-        request.setAttribute("q", query);
-
-        request.setAttribute("numResultsToSkip", "nskips");
-        request.setAttribute("numResultsToReturn", "nreturns");
+        request.setAttribute("q", request.getParameter("q"));
+        request.setAttribute("numResultsToSkip", 
+                                request.getParameter("numResultsToSkip"));
+        request.setAttribute("numResultsToReturn", 
+                                request.getParameter("numResultsToReturn"));
 
 
         request.getRequestDispatcher("/searchResults.jsp")

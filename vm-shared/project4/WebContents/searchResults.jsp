@@ -5,5 +5,7 @@
 <body>
     <p>Hello, world.</p>
     <p>The query: <%= request.getAttribute("q") %></p>
+    <p>The nskips: <%= request.getAttribute("numResultsToSkip") %></p>
+    <p>The nresults: <%= request.getAttribute("numResultsToReturn") %></p>
 </body>
 </html>
