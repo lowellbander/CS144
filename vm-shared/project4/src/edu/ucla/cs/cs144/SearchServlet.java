@@ -19,8 +19,16 @@ public class SearchServlet extends HttpServlet implements Servlet {
         // and numResultsToReturn from the request and 
         // TODO: retrieve the matching results from the eBay data.
         
-        String pageTitle = "Lowell Is Cool";
+        String pageTitle = "the page title";
         request.setAttribute("title", pageTitle);
+
+        String query = "i'm the best query ever.";
+        request.setAttribute("q", query);
+
+        request.setAttribute("numResultsToSkip", "nskips");
+        request.setAttribute("numResultsToReturn", "nreturns");
+
+
         request.getRequestDispatcher("/searchResults.jsp")
                .forward(request, response);
 
