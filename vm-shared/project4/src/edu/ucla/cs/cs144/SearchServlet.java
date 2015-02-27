@@ -18,13 +18,8 @@ public class SearchServlet extends HttpServlet implements Servlet {
             HttpServletResponse response) 
         throws ServletException, IOException {
         
-        // TODO: retrieve the matching results from the eBay data.
-        
-        // TODO: Deprecate.
-        String pageTitle = "the page title";
-        request.setAttribute("title", pageTitle);
-
         request.setAttribute("q", request.getParameter("q"));
+        // TODO: deprecate
         request.setAttribute("numResultsToSkip", 
                                 request.getParameter("numResultsToSkip"));
         request.setAttribute("numResultsToReturn", 
