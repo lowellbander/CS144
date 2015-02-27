@@ -45,7 +45,8 @@ public class SearchServlet extends HttpServlet implements Servlet {
 
         String ItemID = results[0].getItemId();
 
-        request.setAttribute("results", ItemID);
+        request.setAttribute("ItemID", ItemID);
+        request.setAttribute("results", results);
 
         request.getRequestDispatcher("/searchResults.jsp")
                .forward(request, response);
