@@ -4,5 +4,6 @@
 	</head>
 	<body>
 		<h1>Here are the Item Details</h1>
+        <p> Here is the XML: <%= request.getAttribute("xml")%></p>
 	</body>
 </html>
