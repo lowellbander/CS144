@@ -30,6 +30,16 @@ public class SearchServlet extends HttpServlet implements Servlet {
         String numResultsToSkip = request.getParameter("numResultsToSkip");
         String numResultsToReturn = request.getParameter("numResultsToReturn");
 
+        String newSkip = 
+            Integer.toString(Integer.parseInt(numResultsToSkip) + 20);
+        String newReturn = 
+            Integer.toString(Integer.parseInt(numResultsToReturn) + 20);
+
+        String nextURL = "/eBay/search?q=" + query + 
+                    "&numResultsToSkip=" + newSkip +
+                    "&numResultsToReturn=" + newReturn;
+        request.setAttribute("nextURL", nextURL);
+
         // retrieve corresponding results
         
         AuctionSearchClient client = new AuctionSearchClient();
