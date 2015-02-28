@@ -30,14 +30,24 @@ public class SearchServlet extends HttpServlet implements Servlet {
         String numResultsToSkip = request.getParameter("numResultsToSkip");
         String numResultsToReturn = request.getParameter("numResultsToReturn");
 
-        String newSkip = 
+        String prevSkip = 
+            Integer.toString(Integer.parseInt(numResultsToSkip) - 20);
+        String prevReturn = 
+            Integer.toString(Integer.parseInt(numResultsToReturn) - 20);
+
+        String prevURL = "/eBay/search?q=" + query + 
+                    "&numResultsToSkip=" + prevSkip +
+                    "&numResultsToReturn=" + prevReturn;
+        request.setAttribute("prevURL", prevURL);
+
+        String nextSkip = 
             Integer.toString(Integer.parseInt(numResultsToSkip) + 20);
-        String newReturn = 
+        String nextReturn = 
             Integer.toString(Integer.parseInt(numResultsToReturn) + 20);
 
         String nextURL = "/eBay/search?q=" + query + 
-                    "&numResultsToSkip=" + newSkip +
-                    "&numResultsToReturn=" + newReturn;
+                    "&numResultsToSkip=" + nextSkip +
+                    "&numResultsToReturn=" + nextReturn;
         request.setAttribute("nextURL", nextURL);
 
         // retrieve corresponding results
