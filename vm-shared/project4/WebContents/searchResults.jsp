@@ -10,9 +10,9 @@
     <a href="<%= request.getAttribute("nextURL") %>">Next</a>
 
     <form action="/eBay/search">
-      Search Term: <input type="text" name="q"> <br>
-      Number of Results to Skip:   <input type="text" name="numResultsToSkip"> <br>
-      Number of Results to Return: <input type="text" name="numResultsToReturn"> <br>
+      Search Term: <input type="text" name="q">
+      <input type='hidden' name='numResultsToSkip' value='0' />
+      <input type='hidden' name='numResultsToReturn' value='20' />
       <input type="submit" value="Submit">
     </form>
 
