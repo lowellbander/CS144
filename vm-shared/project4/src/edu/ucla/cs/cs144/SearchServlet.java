@@ -30,6 +30,7 @@ public class SearchServlet extends HttpServlet implements Servlet {
         String numResultsToSkip = request.getParameter("numResultsToSkip");
         String numResultsToReturn = request.getParameter("numResultsToReturn");
 
+        // build nav links
         String prevSkip = 
             Integer.toString(Integer.parseInt(numResultsToSkip) - 20);
         String prevReturn = 
