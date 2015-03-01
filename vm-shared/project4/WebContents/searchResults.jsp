@@ -8,10 +8,13 @@
           div {
             display: block;
             margin-left: 30%;
-            margin-right: 30%;
+            /*margin-right: 30%;*/
           }
           form {
             float: right;
+          }
+          p {
+            text-align: center;
           }
     </style>
 </head>
@@ -20,14 +23,14 @@
     <a href="<%= request.getAttribute("nextURL") %>">Next</a>
 
     <form action="/eBay/search">
-      Search Term: <input type="text" name="q">
+      Do another search: <input type="text" name="q">
       <input type='hidden' name='numResultsToSkip' value='0' />
       <input type='hidden' name='numResultsToReturn' value='20' />
-      <input type="submit" value="Submit">
+      <input type="submit" value="Search">
     </form>
 
+    <p>Your results for query: <b><%= request.getAttribute("q") %></b></p>
     <div>
-      <p>Your results for query: <b><%= request.getAttribute("q") %></b></p>
       <table border="1">
           <tr> 
               <td>Item ID</td>

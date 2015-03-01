@@ -33,22 +33,18 @@ public class SearchServlet extends HttpServlet implements Servlet {
         // build nav links
         String prevSkip = 
             Integer.toString(Integer.parseInt(numResultsToSkip) - 20);
-        String prevReturn = 
-            Integer.toString(Integer.parseInt(numResultsToReturn) - 20);
 
         String prevURL = "/eBay/search?q=" + query + 
                     "&numResultsToSkip=" + prevSkip +
-                    "&numResultsToReturn=" + prevReturn;
+                    "&numResultsToReturn=20";
         request.setAttribute("prevURL", prevURL);
 
         String nextSkip = 
             Integer.toString(Integer.parseInt(numResultsToSkip) + 20);
-        String nextReturn = 
-            Integer.toString(Integer.parseInt(numResultsToReturn) + 20);
 
         String nextURL = "/eBay/search?q=" + query + 
                     "&numResultsToSkip=" + nextSkip +
-                    "&numResultsToReturn=" + nextReturn;
+                    "&numResultsToReturn=20";
         request.setAttribute("nextURL", nextURL);
 
         // retrieve corresponding results
