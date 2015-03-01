@@ -4,9 +4,19 @@
 <html>
 <head>
     <title>Search Results</title>
+    <style type="text/css">
+          div {
+            display: block;
+            margin-left: 30%;
+            margin-right: 30%;
+          }
+          form {
+            float: right;
+          }
+    </style>
 </head>
 <body>
-    <a href="<%= request.getAttribute("prevURL") %>">Previous</a>
+    <a href="<%= request.getAttribute("prevURL") %>">Previous</a> |
     <a href="<%= request.getAttribute("nextURL") %>">Next</a>
 
     <form action="/eBay/search">
@@ -16,22 +26,22 @@
       <input type="submit" value="Submit">
     </form>
 
-
-    <p>Your results for query: <%= request.getAttribute("q") %></p>
-    <p>The nskips: <%= request.getAttribute("numResultsToSkip") %></p>
-    <p>The nresults: <%= request.getAttribute("numResultsToReturn") %></p>
-    <table border="1">
-        <tr> 
-            <td>Item ID</td>
-            <td>Item Name</td>
-        </tr>
-      <c:forEach begin="0" end="${fn:length(results) - 1}" var="index">
-         <tr>
-            <td><a href="/eBay/item?ItemID=<c:out value="${results[index].getItemId()}"/>"><c:out value="${results[index].getItemId()}"/></a></td>
-            <td><c:out value="${results[index].getName()}"/></td>
-         </tr>
-      </c:forEach>     
-    </table>
+    <div>
+      <p>Your results for query: <b><%= request.getAttribute("q") %></b></p>
+      <table border="1">
+          <tr> 
+              <td>Item ID</td>
+              <td>Item Name</td>
+          </tr>
+        <c:forEach begin="0" end="${fn:length(results) - 1}" var="index">
+           <tr>
+              <td><a href="/eBay/item?ItemID=<c:out value="${results[index].getItemId()}"/>"><c:out value="${results[index].getItemId()}"/></a></td>
+              <td><c:out value="${results[index].getName()}"/></td>
+           </tr>
+        </c:forEach>     
+      </table>  
+    </div>
+    
     
 </body>
 </html>
