@@ -55,9 +55,6 @@ public class SearchServlet extends HttpServlet implements Servlet {
                                 Integer.parseInt(numResultsToSkip), 
                                 Integer.parseInt(numResultsToReturn));
 
-        String ItemID = results[0].getItemId();
-
-        request.setAttribute("ItemID", ItemID);
         request.setAttribute("results", results);
 
         request.getRequestDispatcher("/searchResults.jsp")

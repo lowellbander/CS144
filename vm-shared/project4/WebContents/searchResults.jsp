@@ -36,7 +36,7 @@
               <td>Item ID</td>
               <td>Item Name</td>
           </tr>
-        <c:forEach begin="0" end="${fn:length(results) - 1}" var="index">
+        <c:forEach begin="0" end="${fn:length(results)}" var="index">
            <tr>
               <td><a href="/eBay/item?ItemID=<c:out value="${results[index].getItemId()}"/>"><c:out value="${results[index].getItemId()}"/></a></td>
               <td><c:out value="${results[index].getName()}"/></td>
