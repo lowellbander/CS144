@@ -74,7 +74,15 @@
         <input type="button" value="Load map" onclick="codeAddress()">
   		</form>
   		<h2>Item details:</h2>
-          <p> XML: <pre><%= request.getAttribute("xml")%></pre></p>
+          <p> XML: <%= request.getAttribute("xml")%></p>
+          <p> Name: <%= request.getAttribute("name")%></p>
+          <p> First Bid: <%= request.getAttribute("first bid")%></p>
+          <p> Number of Bids: <%= request.getAttribute("Number of Bids")%></p>
+          <p> Location: <%= request.getAttribute("Location")%></p>
+          <p> Country: <%= request.getAttribute("Country")%></p>
+          <p> Started: <%= request.getAttribute("Started")%></p>
+          <p> Ends: <%= request.getAttribute("Ends")%></p>
+
     </div>
     <div id="map-canvas"></div>
 	</body>
