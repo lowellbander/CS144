@@ -21,7 +21,8 @@
 <body>
     <a href="<%= request.getAttribute("prevURL") %>">Previous</a> |
     <a href="<%= request.getAttribute("nextURL") %>">Next</a>
-
+    <p>foo: <%= request.getAttribute("foo")%> </p>
+    
     <form action="/eBay/search">
       Do another search: <input type="text" name="q">
       <input type='hidden' name='numResultsToSkip' value='0' />
