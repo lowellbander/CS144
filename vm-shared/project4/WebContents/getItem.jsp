@@ -92,9 +92,9 @@
         <input type='hidden' name='numResultsToSkip' value='0' />
   		  <input type='hidden' name='numResultsToReturn' value='20' />
   		  <input type="submit" value="Search" onclick="codeAddress()">
-        <br>
-        <input id="address" type="textbox" value="UCLA">
-        <input type="button" value="Load map" onclick="codeAddress()">
+        <!-- <br> -->
+        <!-- <input id="address" type="textbox" value="UCLA"> -->
+        <!-- <input type="button" value="Load map" onclick="codeAddress()"> -->
   		</form>
   		<h2>Item details:</h2>
         <p> ItemID: <%= request.getAttribute("itemid")%></p>
