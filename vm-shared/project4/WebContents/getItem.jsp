@@ -78,7 +78,6 @@
         <input type="button" value="Load map" onclick="codeAddress()">
   		</form>
   		<h2>Item details:</h2>
-        <!-- <p> XML: <%= request.getAttribute("xml")%></p> -->
         <p> ItemID: <%= request.getAttribute("itemid")%></p>
         <p> Name: <%= request.getAttribute("name")%></p>
         <p> Categories: <%= request.getAttribute("categories")%></p>
@@ -88,6 +87,10 @@
         <p> Country: <%= request.getAttribute("Country")%></p>
         <p> Started: <%= request.getAttribute("Started")%></p>
         <p> Ends: <%= request.getAttribute("Ends")%></p>
+        <p> Seller Rating: <%= request.getAttribute("seller rating")%></p>
+        <p> Seller ID: <%= request.getAttribute("seller id")%></p>
+        <p> Description: <%= request.getAttribute("description")%></p>
+        <!-- <p> XML: <%= request.getAttribute("xml")%></p> -->
         <table border="1">
           <tr>
             <td>Bidder Rating</td>
