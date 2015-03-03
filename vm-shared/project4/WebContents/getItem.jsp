@@ -102,12 +102,12 @@
           </tr>
           <c:forEach begin="0" end="${fn:length(results)}" var="index">
             <tr>
-              <td>dummy</td>
-              <td>dummy</td>
-              <td>dummy</td>
-              <td>dummy</td>
-              <td>dummy</td>
-              <td>dummy</td>
+              <td>952</td>
+              <td>fallsantiques</td>
+              <td>Los Angeles, CA</td>
+              <td>USA</td>
+              <td>Dec-06-01 06:44:54</td>
+              <td>$4.00</td>
             </tr>
           </c:forEach>
         </table>

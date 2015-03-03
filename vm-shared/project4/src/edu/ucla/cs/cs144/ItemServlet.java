@@ -115,6 +115,7 @@ public class ItemServlet extends HttpServlet implements Servlet {
                 request.setAttribute("description",
                         getElementTextByTagNameNR(item, "Description"));
 
+                // bids
 
                 request.setAttribute("bids", 
                     getElementsByTagNameNR(getElementByTagNameNR(item, "Bids"), 
