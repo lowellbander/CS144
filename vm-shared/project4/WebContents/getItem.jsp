@@ -97,7 +97,6 @@
         <input type="button" value="Load map" onclick="codeAddress()">
   		</form>
   		<h2>Item details:</h2>
-        <!-- <p> XML: <%= request.getAttribute("xml")%></p> -->
         <p> ItemID: <%= request.getAttribute("itemid")%></p>
         <p> Name: <%= request.getAttribute("name")%></p>
         <p> Categories: <%= request.getAttribute("categories")%></p>
@@ -107,6 +106,10 @@
         <p> Country: <%= request.getAttribute("Country")%></p>
         <p> Started: <%= request.getAttribute("Started")%></p>
         <p> Ends: <%= request.getAttribute("Ends")%></p>
+        <p> Seller Rating: <%= request.getAttribute("seller rating")%></p>
+        <p> Seller ID: <%= request.getAttribute("seller id")%></p>
+        <p> Description: <%= request.getAttribute("description")%></p>
+        <!-- <p> XML: <%= request.getAttribute("xml")%></p> -->
         <table border="1">
           <tr>
             <td>Bidder Rating</td>
@@ -118,12 +121,12 @@
           </tr>
           <c:forEach begin="0" end="${fn:length(results)}" var="index">
             <tr>
-              <td>dummy</td>
-              <td>dummy</td>
-              <td>dummy</td>
-              <td>dummy</td>
-              <td>dummy</td>
-              <td>dummy</td>
+              <td>952</td>
+              <td>fallsantiques</td>
+              <td>Los Angeles, CA</td>
+              <td>USA</td>
+              <td>Dec-06-01 06:44:54</td>
+              <td>$4.00</td>
             </tr>
           </c:forEach>
         </table>
