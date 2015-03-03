@@ -11,7 +11,7 @@ cd project3-searcher/ &&
 bash deploy.sh &&
 cd .. &&
 
-cd project-4/ &&
+cd project4/ &&
 bash run.sh &&
 cd .. &&
 
