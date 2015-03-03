@@ -1,6 +1,8 @@
+<!-- TODO: don't need this first line -->
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>  
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
 
+<!DOCTYPE html>
 <html>
 <head>
     <title>Search Results</title>
@@ -8,7 +10,6 @@
           div {
             display: block;
             margin-left: 30%;
-            /*margin-right: 30%;*/
           }
           form {
             float: right;

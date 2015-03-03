@@ -1,3 +1,6 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -22,6 +25,7 @@
               background-color: #fff;
               padding: 10px;
               border: 1px solid #999;
+              width: 30%;
           }
           body{
             font-family: 'Open Sans', sans-serif;
@@ -74,14 +78,36 @@
         <input type="button" value="Load map" onclick="codeAddress()">
   		</form>
   		<h2>Item details:</h2>
-          <p> XML: <%= request.getAttribute("xml")%></p>
-          <p> Name: <%= request.getAttribute("name")%></p>
-          <p> First Bid: <%= request.getAttribute("first bid")%></p>
-          <p> Number of Bids: <%= request.getAttribute("Number of Bids")%></p>
-          <p> Location: <%= request.getAttribute("Location")%></p>
-          <p> Country: <%= request.getAttribute("Country")%></p>
-          <p> Started: <%= request.getAttribute("Started")%></p>
-          <p> Ends: <%= request.getAttribute("Ends")%></p>
+        <!-- <p> XML: <%= request.getAttribute("xml")%></p> -->
+        <p> ItemID: <%= request.getAttribute("itemid")%></p>
+        <p> Name: <%= request.getAttribute("name")%></p>
+        <p> Categories: <%= request.getAttribute("categories")%></p>
+        <p> First Bid: <%= request.getAttribute("first bid")%></p>
+        <p> Number of Bids: <%= request.getAttribute("Number of Bids")%></p>
+        <p> Location: <%= request.getAttribute("Location")%></p>
+        <p> Country: <%= request.getAttribute("Country")%></p>
+        <p> Started: <%= request.getAttribute("Started")%></p>
+        <p> Ends: <%= request.getAttribute("Ends")%></p>
+        <table border="1">
+          <tr>
+            <td>Bidder Rating</td>
+            <td>Bidder ID</td>
+            <td>Location</td>
+            <td>Country</td>
+            <td>Time</td>
+            <td>Amount</td>
+          </tr>
+          <c:forEach begin="0" end="${fn:length(results)}" var="index">
+            <tr>
+              <td>dummy</td>
+              <td>dummy</td>
+              <td>dummy</td>
+              <td>dummy</td>
+              <td>dummy</td>
+              <td>dummy</td>
+            </tr>
+          </c:forEach>
+        </table>
 
     </div>
     <div id="map-canvas"></div>

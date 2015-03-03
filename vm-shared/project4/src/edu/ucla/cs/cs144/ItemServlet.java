@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.*;
+import java.util.*;
 import javax.xml.parsers.*;
 import org.w3c.dom.*;
 import org.xml.sax.*;
@@ -21,6 +22,21 @@ public class ItemServlet extends HttpServlet implements Servlet {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         return builder.parse(new InputSource(new StringReader(xmlSource)));
+    }
+
+    static Element[] getElementsByTagNameNR(Element e, String tagName) {
+        Vector< Element > elements = new Vector< Element >();
+        Node child = e.getFirstChild();
+        while (child != null) {
+            if (child instanceof Element && child.getNodeName().equals(tagName))
+            {
+                elements.add( (Element)child );
+            }
+            child = child.getNextSibling();
+        }
+        Element[] result = new Element[elements.size()];
+        elements.copyInto(result);
+        return result;
     }
 
     static Element getElementByTagNameNR(Element e, String tagName) {
@@ -57,29 +73,48 @@ public class ItemServlet extends HttpServlet implements Servlet {
         AuctionSearchClient client = new AuctionSearchClient();
         String itemID = request.getParameter("ItemID");
         String xml = client.getXMLDataForItemId(itemID);
+        if (xml == null) xml = "There was an error receiving data from the server. Sorry!";
+        else {
+            try {
+                Document doc = stringToDom(xml);
+                Element item = doc.getDocumentElement();
 
-        try {
-            Document doc = stringToDom(xml);
-            Element item = doc.getDocumentElement();
-            request.setAttribute("name", 
-                    getElementTextByTagNameNR(item, "Name"));
-            request.setAttribute("first bid", 
-                    getElementTextByTagNameNR(item, "First_Bid"));
-            request.setAttribute("Number of Bids", 
-                    getElementTextByTagNameNR(item, "Number_of_Bids"));
-            request.setAttribute("Location", 
-                    getElementTextByTagNameNR(item, "Location"));
-            request.setAttribute("Country", 
-                    getElementTextByTagNameNR(item, "Country"));
-            request.setAttribute("Started", 
-                    getElementTextByTagNameNR(item, "Started"));
-            request.setAttribute("Ends", 
-                    getElementTextByTagNameNR(item, "Ends"));
-            
-        } catch (Exception e) {
-            StringWriter errors = new StringWriter();
-            e.printStackTrace(new PrintWriter(errors));
-            xml = errors.toString();
+                // handle simple attributes
+                request.setAttribute("itemid", 
+                        item.getAttribute("ItemID"));
+                request.setAttribute("name", 
+                        getElementTextByTagNameNR(item, "Name"));
+                request.setAttribute("first bid", 
+                        getElementTextByTagNameNR(item, "First_Bid"));
+                request.setAttribute("Number of Bids", 
+                        getElementTextByTagNameNR(item, "Number_of_Bids"));
+                request.setAttribute("Location", 
+                        getElementTextByTagNameNR(item, "Location"));
+                request.setAttribute("Country", 
+                        getElementTextByTagNameNR(item, "Country"));
+                request.setAttribute("Started", 
+                        getElementTextByTagNameNR(item, "Started"));
+                request.setAttribute("Ends", 
+                        getElementTextByTagNameNR(item, "Ends"));
+
+                // categories
+                String categories = "";
+                for (Element category : 
+                        getElementsByTagNameNR(item, "Category")) {
+                    categories = categories.concat(getElementText(category) 
+                                                                    + ", ");
+                }
+                request.setAttribute("categories", categories);
+
+
+                request.setAttribute("bids", 
+                    getElementsByTagNameNR(getElementByTagNameNR(item, "Bids"), 
+                                                                        "Bid"));
+
+                
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         request.setAttribute("xml", xml);
