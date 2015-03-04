@@ -17,15 +17,23 @@
             text-align: center;
           }
     </style>
+    <script type="text/javascript" src="suggestionsProvider.js"></script>
+    <script type="text/javascript" src="autosuggest.js"></script>
+    <link rel="stylesheet" type="text/css" href="autosuggest.css" />
+    <script type="text/javascript">
+      window.onload=function(){
+        var oTextbox = new AutoSuggestControl(document.getElementById("queryText"), new suggestionsProvider());
+;      }
+    </script>
 </head>
 <body>
     <a href="<%= request.getAttribute("prevURL") %>">Previous</a> |
     <a href="<%= request.getAttribute("nextURL") %>">Next</a>
     
     <form action="/eBay/search">
-      Do another search: <input type="text" name="q">
+      Do another search: <input type="text" name="q" id="queryText">
       <input type='hidden' name='numResultsToSkip' value='0' />
-      <input type='hidden' name='numResultsToReturn' value='20' />
+      <input type='hidden' name='numResultsToReturn' value='20' />`
       <input type="submit" value="Search">
     </form>
 

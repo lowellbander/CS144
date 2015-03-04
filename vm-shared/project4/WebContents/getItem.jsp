@@ -36,6 +36,7 @@
     <script>
       var geocoder;
       var map;
+      var latlng = new google.maps.LatLng(-34.397, 150.644);
       function initialize() {
         geocoder = new google.maps.Geocoder();
         var address = '<%=(String)request.getAttribute("Location")%>' ;
@@ -46,15 +47,21 @@
                 center: results[0].geometry.location
             };
             map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-
-            var marker = new google.maps.Marker({
+            if(!address || address == 'null'){
+              map.setZoom(2);
+              map.setCenter(latlng);
+            }
+            else{
+                var marker = new google.maps.Marker({
                 map: map,
                 position: results[0].geometry.location
-            });
+              });
+            }
+            
         
           } else {
             //alert('Geocode was not successful for the following reason: ' + status);
-                var latlng = new google.maps.LatLng(-34.397, 150.644);
+                
                 var mapOptions = {
                     zoom: 2,
                     center: latlng
@@ -84,17 +91,25 @@
 
       google.maps.event.addDomListener(window, 'load', initialize);
     </script>
+    <script type="text/javascript" src="suggestionsProvider.js"></script>
+    <script type="text/javascript" src="autosuggest.js"></script>
+    <link rel="stylesheet" type="text/css" href="autosuggest.css" />
+    <script type="text/javascript">
+      window.onload=function(){
+        var oTextbox = new AutoSuggestControl(document.getElementById("queryText"), new suggestionsProvider());
+;      }
+    </script>
 	</head>
 	<body>
     <div id="panel">
-  		<form action="/eBay/search">
-  		  <input type="text" name="q" placeholder="Enter search query...">
-        <input type='hidden' name='numResultsToSkip' value='0' />
-  		  <input type='hidden' name='numResultsToReturn' value='20' />
+  		<form action="/eBay/item">
+  		  <input type="text" name="q" placeholder="Enter search query..." id="queryText">
+        <!--<input type='hidden' name='numResultsToSkip' value='0' />
+  		  <input type='hidden' name='numResultsToReturn' value='20' />-->
   		  <input type="submit" value="Search" onclick="codeAddress()">
-        <br>
+        <!--<br>
         <input id="address" type="textbox" value="UCLA">
-        <input type="button" value="Load map" onclick="codeAddress()">
+        <input type="button" value="Load map" onclick="codeAddress()">-->
   		</form>
   		<h2>Item details:</h2>
         <p> ItemID: <%= request.getAttribute("itemid")%></p>
