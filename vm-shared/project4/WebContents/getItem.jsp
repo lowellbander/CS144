@@ -103,7 +103,7 @@
 	<body>
     <div id="panel">
   		<form action="/eBay/item">
-  		  <input type="text" name="q" placeholder="Enter search query..." id="queryText">
+  		  <input type="text" name="ItemID" placeholder="Enter an Item ID" id="queryText">
         <!--<input type='hidden' name='numResultsToSkip' value='0' />
   		  <input type='hidden' name='numResultsToReturn' value='20' />-->
   		  <input type="submit" value="Search" onclick="codeAddress()">
