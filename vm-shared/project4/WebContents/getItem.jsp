@@ -114,24 +114,14 @@
             <td>Bidder Rating</td>
             <td>Bidder ID</td>
             <td>Location</td>
-            <td>Country</td>
             <td>Time</td>
             <td>Amount</td>
           </tr>
-          <tr>
-              <td>952</td>
-              <td>fallsantiques</td>
-              <td>Los Angeles, CA</td>
-              <td>USA</td>
-              <td>Dec-06-01 06:44:54</td>
-              <td>$4.00</td>
-            </tr>
           <c:forEach begin="0" end="${fn:length(times)}" var="index">
-            <tr>
-              <td>952</td>
-              <td>fallsantiques</td>
-              <td>Los Angeles, CA</td>
-              <td>USA</td>
+            <tr>  
+              <td><c:out value="${ratings[index]}"/></td>
+              <td><c:out value="${ids[index]}"/></td>
+              <td><c:out value="${locations[index]}"/>, <c:out value="${countries[index]}"/></td>
               <td><c:out value="${times[index]}"/></td>
               <td><c:out value="${amounts[index]}"/></td>
             </tr>
