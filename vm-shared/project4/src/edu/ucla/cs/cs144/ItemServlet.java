@@ -117,9 +117,35 @@ public class ItemServlet extends HttpServlet implements Servlet {
 
                 // bids
 
-                request.setAttribute("bids", 
-                    getElementsByTagNameNR(getElementByTagNameNR(item, "Bids"), 
-                                                                        "Bid"));
+                Element[] bids = getElementsByTagNameNR(
+                        getElementByTagNameNR(item, "Bids"), "Bid");
+
+                ArrayList times = new ArrayList();
+                ArrayList amounts = new ArrayList();
+                ArrayList ratings = new ArrayList();
+                ArrayList ids = new ArrayList();
+                ArrayList locations = new ArrayList();
+                ArrayList countries = new ArrayList();
+                for (Element bid : bids) {
+                    times.add(getElementTextByTagNameNR(bid, "Time"));
+                    amounts.add(getElementTextByTagNameNR(bid, "Amount"));
+
+                    Element bidder = getElementByTagNameNR(bid, "Bidder");
+                    locations.add(getElementTextByTagNameNR(bidder, 
+                                                            "Location"));
+                    countries.add(getElementTextByTagNameNR(bidder, 
+                                                            "Country"));
+                    ratings.add(bidder.getAttribute("Rating"));
+                    ids.add(bidder.getAttribute("UserID"));
+
+                }
+
+                request.setAttribute("times", times);
+                request.setAttribute("amounts", amounts);
+                request.setAttribute("ratings", ratings);
+                request.setAttribute("ids", ids);
+                request.setAttribute("locations", locations);
+                request.setAttribute("countries", countries);
                 
             } catch (Exception e) {
                 e.printStackTrace();

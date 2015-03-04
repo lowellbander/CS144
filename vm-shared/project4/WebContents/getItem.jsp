@@ -107,41 +107,39 @@
         <!--<input type='hidden' name='numResultsToSkip' value='0' />
   		  <input type='hidden' name='numResultsToReturn' value='20' />-->
   		  <input type="submit" value="Search" onclick="codeAddress()">
-        <!--<br>
-        <input id="address" type="textbox" value="UCLA">
-        <input type="button" value="Load map" onclick="codeAddress()">-->
+
   		</form>
-  		<h2>Item details:</h2>
-        <p> ItemID: <%= request.getAttribute("itemid")%></p>
-        <p> Name: <%= request.getAttribute("name")%></p>
-        <p> Categories: <%= request.getAttribute("categories")%></p>
-        <p> First Bid: <%= request.getAttribute("first bid")%></p>
-        <p> Number of Bids: <%= request.getAttribute("Number of Bids")%></p>
-        <p> Location: <%= request.getAttribute("Location")%></p>
-        <p> Country: <%= request.getAttribute("Country")%></p>
-        <p> Started: <%= request.getAttribute("Started")%></p>
-        <p> Ends: <%= request.getAttribute("Ends")%></p>
-        <p> Seller Rating: <%= request.getAttribute("seller rating")%></p>
-        <p> Seller ID: <%= request.getAttribute("seller id")%></p>
-        <p> Description: <%= request.getAttribute("description")%></p>
+  		<h2 style="text-align:center">Details for Item <%= request.getAttribute("itemid")%></h2>
+        <p>Name: <%= request.getAttribute("name")%></p>
+        <p>Categories: <%= request.getAttribute("categories")%></p>
+        <p>First Bid: <%= request.getAttribute("first bid")%></p>
+        <p>Number of Bids: <%= request.getAttribute("Number of Bids")%></p>
+        <p>Location: <%= request.getAttribute("Location")%>, <%= request.getAttribute("Country")%></p>
+        <p>Started: <%= request.getAttribute("Started")%></p>
+        <p>Ends: <%= request.getAttribute("Ends")%></p>
+        <p>Description: <%= request.getAttribute("description")%></p>
+        <h3>Seller Details</h3>
+        <div style="padding-left : 8px">
+          <p>Rating: <%= request.getAttribute("seller rating")%></p>  
+          <p>ID: <%= request.getAttribute("seller id")%></p>
+        </div>
         <!-- <p> XML: <%= request.getAttribute("xml")%></p> -->
+        <h3>Bid Details</h3>
         <table border="1">
           <tr>
             <td>Bidder Rating</td>
             <td>Bidder ID</td>
             <td>Location</td>
-            <td>Country</td>
             <td>Time</td>
             <td>Amount</td>
           </tr>
-          <c:forEach begin="0" end="${fn:length(results)}" var="index">
-            <tr>
-              <td>952</td>
-              <td>fallsantiques</td>
-              <td>Los Angeles, CA</td>
-              <td>USA</td>
-              <td>Dec-06-01 06:44:54</td>
-              <td>$4.00</td>
+          <c:forEach begin="0" end="${fn:length(times)}" var="index">
+            <tr>  
+              <td><c:out value="${ratings[index]}"/></td>
+              <td><c:out value="${ids[index]}"/></td>
+              <td><c:out value="${locations[index]}"/>, <c:out value="${countries[index]}"/></td>
+              <td><c:out value="${times[index]}"/></td>
+              <td><c:out value="${amounts[index]}"/></td>
             </tr>
           </c:forEach>
         </table>
