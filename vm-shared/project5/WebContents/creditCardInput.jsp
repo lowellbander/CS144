@@ -1,4 +1,4 @@
-<% String URL = "https://" + request.getServerName()+":8443"+request.getContextPath()+"/creditCardInput"; %>
+<% String URL = "https://" + request.getServerName()+":8443"+request.getContextPath()+"/confirmation"; %>
 <html>
     <head> 
         <title>Payment input</title>
@@ -8,8 +8,8 @@
         <form method="POST" action="<%= URL %>">
             <ul>
                 <li>Item ID: <%= request.getAttribute("itemID") %></li>
-                <li></li>
-                <li></li>      
+                <li>Name: <%= request.getAttribute("itemName") %></li>
+                <li>Buy Price: <%= request.getAttribute("buyPrice") %></li>      
             </ul>
             <p>Enter Credit Card no.:
                 <input type="text" name="creditCardNum" />
