@@ -13,7 +13,14 @@ public class TransactionServlet extends HttpServlet implements Servlet {
                                                              IOException {
 
     // DO STUFF
+    HttpSession session = request.getSession(true);
+    String itemID = (String)session.getAttribute("itemID");
+    String name = (String)session.getAttribute("itemName");
+    String buyPrice = (String)session.getAttribute("buyPrice");
 
+    request.setAttribute("itemID", itemID);
+    request.setAttribute("Name", name);
+    request.setAttribute("buyPrice", buyPrice);
     request.getRequestDispatcher("/creditCardInput.jsp")
            .forward(request, response);
   }
