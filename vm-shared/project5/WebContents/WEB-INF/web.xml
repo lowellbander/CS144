@@ -27,6 +27,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>ConfirmationServlet</servlet-name>
+        <servlet-class>edu.ucla.cs.cs144.ConfirmationServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ConfirmationServlet</servlet-name>
+        <url-pattern>/confirmation</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>ProxyServlet</servlet-name>
         <servlet-class>edu.ucla.cs.cs144.ProxyServlet</servlet-class>
     </servlet>

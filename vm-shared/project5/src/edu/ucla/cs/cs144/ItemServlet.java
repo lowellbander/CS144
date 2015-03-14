@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import java.io.*;
 import java.util.*;
@@ -70,6 +71,9 @@ public class ItemServlet extends HttpServlet implements Servlet {
     protected void doGet(HttpServletRequest request, 
             HttpServletResponse response) throws ServletException, IOException
     {
+        // session stuff
+        HttpSession session = request.getSession(true);
+
         AuctionSearchClient client = new AuctionSearchClient();
         String itemID = request.getParameter("ItemID");
         String xml = client.getXMLDataForItemId(itemID);
@@ -79,13 +83,20 @@ public class ItemServlet extends HttpServlet implements Servlet {
                 Document doc = stringToDom(xml);
                 Element item = doc.getDocumentElement();
 
+                String itemName = getElementTextByTagNameNR(item, "Name");
+                String buyPrice = getElementTextByTagNameNR(item, "Buy_Price");
+
+                // update session
+                session.setAttribute("itemID", itemID);
+                session.setAttribute("itemName", itemName);
+                session.setAttribute("buyPrice", buyPrice);
+
                 // handle simple attributes
-                request.setAttribute("itemid", 
-                        item.getAttribute("ItemID"));
-                request.setAttribute("name", 
-                        getElementTextByTagNameNR(item, "Name"));
+                request.setAttribute("itemid", itemID);
+                request.setAttribute("name", itemName);
                 request.setAttribute("first bid", 
                         getElementTextByTagNameNR(item, "First_Bid"));
+                request.setAttribute("buyPrice", buyPrice);
                 request.setAttribute("Number of Bids", 
                         getElementTextByTagNameNR(item, "Number_of_Bids"));
                 request.setAttribute("Location", 
