@@ -19,7 +19,7 @@ public class TransactionServlet extends HttpServlet implements Servlet {
     String buyPrice = (String)session.getAttribute("buyPrice");
 
     request.setAttribute("itemID", itemID);
-    request.setAttribute("Name", name);
+    request.setAttribute("itemName", name);
     request.setAttribute("buyPrice", buyPrice);
     request.getRequestDispatcher("/creditCardInput.jsp")
            .forward(request, response);
