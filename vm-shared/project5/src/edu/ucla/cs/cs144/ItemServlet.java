@@ -84,19 +84,19 @@ public class ItemServlet extends HttpServlet implements Servlet {
                 Element item = doc.getDocumentElement();
 
                 String itemName = getElementTextByTagNameNR(item, "Name");
-                // TODO
-                //String buyPrice = 
+                String buyPrice = getElementTextByTagNameNR(item, "Buy_Price");
 
                 // update session
                 session.setAttribute("itemID", itemID);
                 session.setAttribute("itemName", itemName);
-                // TODO: add buy price
+                session.setAttribute("buyPrice", buyPrice);
 
                 // handle simple attributes
                 request.setAttribute("itemid", itemID);
                 request.setAttribute("name", itemName);
                 request.setAttribute("first bid", 
                         getElementTextByTagNameNR(item, "First_Bid"));
+                request.setAttribute("buyPrice", buyPrice);
                 request.setAttribute("Number of Bids", 
                         getElementTextByTagNameNR(item, "Number_of_Bids"));
                 request.setAttribute("Location", 

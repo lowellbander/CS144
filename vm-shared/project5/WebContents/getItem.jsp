@@ -114,6 +114,7 @@
         <p>Name: <%= request.getAttribute("name")%></p>
         <p>Categories: <%= request.getAttribute("categories")%></p>
         <p>First Bid: <%= request.getAttribute("first bid")%></p>
+        <p>Buy Price: <%= request.getAttribute("buyPrice")%></p>
         <p>Number of Bids: <%= request.getAttribute("Number of Bids")%></p>
         <p>Location: <%= request.getAttribute("Location")%>, <%= request.getAttribute("Country")%></p>
         <p>Started: <%= request.getAttribute("Started")%></p>
