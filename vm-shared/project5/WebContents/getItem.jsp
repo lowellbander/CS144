@@ -110,6 +110,7 @@
 
   		</form>
   		<h2 style="text-align:center">Details for Item <%= request.getAttribute("itemid")%></h2>
+      <a href="/eBay/transaction">Pay Now!</a>
         <p>Name: <%= request.getAttribute("name")%></p>
         <p>Categories: <%= request.getAttribute("categories")%></p>
         <p>First Bid: <%= request.getAttribute("first bid")%></p>
